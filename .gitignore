@@ -1,0 +1,6 @@
+.bundle
+vbulletin.tmproj
+Gemfile.lock
+test/dummy/log/*.log
+test/dummy/tmp
+test/dummy/config/database.yml
