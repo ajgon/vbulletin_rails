@@ -5,7 +5,7 @@ require 'vbulletin/models/user'
 require 'vbulletin/models/userfield'
 require 'vbulletin/models/usertextfield'
 
-class VBulletinTest < ActiveSupport::TestCase
+class VBulletinModelTest < ActiveSupport::TestCase
 
   def setup
     @vbulletin = VBulletin::User.register(:email => 'vb1@example.com', :username => 'vb1', :password => 'password1')

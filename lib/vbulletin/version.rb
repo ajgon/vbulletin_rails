@@ -1,3 +1,3 @@
-module Vbulletin
+module VBulletin
   VERSION = "0.0.1"
 end
