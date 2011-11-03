@@ -16,6 +16,7 @@ module ActionController
 
     after_filter :act_as_vbulletin
 
+    private
     def vbulletin_login options = {}
       user = nil
       if options[:login]
@@ -50,7 +51,6 @@ module ActionController
       end
     end
 
-    private
     def current_vbulletin_user
       VBulletin::User.find_by_userid(session[:vbulletin_userid])
     end

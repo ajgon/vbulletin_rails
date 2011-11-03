@@ -5,7 +5,6 @@ module VBulletin
 
     set_table_name(PREFIX + 'session')
     set_primary_key(:sessionhash)
-    inheritance_column=('sdfsadfasdf')
 
     belongs_to :user, :foreign_key => :userid
 
