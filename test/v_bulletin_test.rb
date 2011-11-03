@@ -75,4 +75,17 @@ class VBulletinTest < ActiveSupport::TestCase
 
   end
 
+  test 'fetch_subtr_ip function test' do
+    ip = '123.45.6.78'
+    assert_equal '123.45.6.78', VBulletin::fetch_substr_ip(ip, 0)
+    assert_equal '123.45.6.78', VBulletin::fetch_substr_ip(ip, 'test')
+    assert_equal '123.45.6.78', VBulletin::fetch_substr_ip(ip, nil)
+    assert_equal '123.45.6', VBulletin::fetch_substr_ip(ip)
+    assert_equal '123.45.6', VBulletin::fetch_substr_ip(ip, 25)
+    assert_equal '123.45.6', VBulletin::fetch_substr_ip(ip, 1)
+    assert_equal '123.45.6', VBulletin::fetch_substr_ip(ip, -1)
+    assert_equal '123.45', VBulletin::fetch_substr_ip(ip, 2)
+    assert_equal '123', VBulletin::fetch_substr_ip(ip, 3)
+  end
+
 end
