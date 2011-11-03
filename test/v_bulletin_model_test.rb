@@ -39,6 +39,8 @@ class VBulletinModelTest < ActiveSupport::TestCase
   test "it should create vbulletin object" do
     #should pass
     assert_instance_of VBulletin::User, @vbulletin
+    assert_equal nil, @vbulletin.birthday_search
+    assert @vbulletin.userid.to_i > 0
   end
 
   test "it should contain additional tables" do

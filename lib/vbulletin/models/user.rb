@@ -13,7 +13,7 @@ module VBulletin
     has_many :session, :foreign_key => :userid, :dependent => :delete_all
 
     def authenticate(passwd)
-      User.password_hash(passwd, salt) == password ? self : false
+      User.password_hash(passwd.to_s, salt) == password ? self : false
     end
 
     def self.register options
@@ -44,9 +44,12 @@ module VBulletin
       })
       vb_user.userfield = Userfield.new
       vb_user.usertextfield = Usertextfield.new
-      vb_user.save
-      connection.execute("UPDATE `#{PREFIX}user` SET `birthday_search` = '0000-00-00' WHERE `#{PREFIX}user`.`userid` = '#{vb_user.userid}'") if vb_user.valid?
-      return vb_user
+      if vb_user.save
+        connection.execute("UPDATE `#{PREFIX}user` SET `birthday_search` = '0000-00-00' WHERE `#{PREFIX}user`.`userid` = '#{vb_user.userid}'")
+        return find(vb_user.userid)
+      else
+        return vb_user
+      end
     end
 
     private
