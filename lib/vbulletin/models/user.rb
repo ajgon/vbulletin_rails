@@ -1,5 +1,5 @@
 module VBulletin
-  class User < VBulletin
+  class User < VBulletin::Base
 
     set_primary_key(:userid)
     set_table_name(PREFIX + 'user')
@@ -10,6 +10,7 @@ module VBulletin
 
     has_one :userfield, :foreign_key => :userid, :dependent => :delete
     has_one :usertextfield, :foreign_key => :userid, :dependent => :delete
+    has_many :session, :foreign_key => :userid, :dependent => :delete_all
 
     def authenticate(passwd)
       User.password_hash(passwd, salt) == password ? self : false
@@ -25,9 +26,9 @@ module VBulletin
       vb_user = self.new({
         :usergroupid => 2,
         :username => options[:username].to_s,
-        :password => password_hash(options[:password], new_salt),
+        :password => password_hash(options[:password].to_s, new_salt),
         :passworddate => Date.today.to_s,
-        :email => options[:email],
+        :email => options[:email].to_s,
         :usertitle => 'Junior Member',
         :joindate => nowstamp,
         :daysprune => -1,

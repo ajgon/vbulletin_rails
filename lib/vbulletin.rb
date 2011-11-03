@@ -1,12 +1,16 @@
 $LOAD_PATH << File.dirname(__FILE__) unless $LOAD_PATH.include?(File.dirname(__FILE__))
 
 require 'vbulletin/core_ext'
-require 'vbulletin/models/v_bulletin.rb'
-require 'vbulletin/models/user.rb'
-require 'vbulletin/models/userfield.rb'
-require 'vbulletin/models/usertextfield.rb'
+require 'vbulletin/models/base'
+require 'vbulletin/models/user'
+require 'vbulletin/models/userfield'
+require 'vbulletin/models/usertextfield'
+require 'vbulletin/models/session'
 
 module VBulletin
+
+  class VBulletinException < Exception
+  end
 
   def self.valid_ip? ip
     !!ip.to_s.match(/^\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b$/)
@@ -54,4 +58,14 @@ module VBulletin
     return alt_ip
   end
 
+  def self.fetch_substr_ip(ip, length = 1)
+    length = length.to_i
+    length = 1 if length < 0 or length > 3
+
+    return ip.split('.')[0..(3 - length)].join('.')
+  end
+
+  def self.idhash alt_ip, user_agent
+    Digest::MD5.hexdigest(user_agent + fetch_substr_ip(alt_ip))
+  end
 end
