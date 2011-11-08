@@ -25,7 +25,7 @@ module VBulletin
 
       vb_user = self.new({
         :usergroupid => 2,
-        :username => options[:username].to_s,
+        :username => username.to_s,
         :password => password_hash(options[:password].to_s, new_salt),
         :passworddate => Date.today.to_s,
         :email => options[:email].to_s,

@@ -74,7 +74,7 @@ class VBulletinModelTest < ActiveSupport::TestCase
       assert_equal 'User not found', e.message
     end
     begin
-      VBulletin::Session.set(:request => request, :email => 'wrongemail', :login => 'wronglogin)(P#@"")')
+      VBulletin::Session.set(:request => request, :email => 'wrongemail', :username => 'wronglogin)(P#@"")')
     rescue Exception => e
       assert_instance_of VBulletin::VBulletinException, e
       assert_equal 'User not found', e.message

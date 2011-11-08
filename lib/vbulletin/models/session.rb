@@ -26,7 +26,7 @@ module VBulletin
 
       user = nil
       user = User.find_by_email(options[:email]) if options[:email]
-      user = User.find_by_username(options[:login]) if options[:login]
+      user = User.find_by_username(options[:username]) if options[:username]
       raise VBulletinException, 'User not found' unless user
 
       nowstamp = Time.now.to_i
@@ -52,6 +52,11 @@ module VBulletin
         return (session.idhash == idhash && (Time.now.to_i - session.lastactivity) < VB_SESSION_TIMEOUT) ? session : false;
       end
       return false
+    end
+    
+    def self.destroy sessionhash
+      session = find_by_sessionhash(sessionhash)
+      session.destroy
     end
 
     private
