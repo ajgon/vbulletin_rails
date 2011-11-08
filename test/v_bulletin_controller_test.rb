@@ -18,11 +18,11 @@ class VBulletinControllerTest < ActiveSupport::TestCase
   test 'login action' do
     assert !@controller.send(:vbulletin_login)
     assert !@controller.send(:vbulletin_login, :email => 'invalidemail')
-    assert !@controller.send(:vbulletin_login, :login => 'vb1')
+    assert !@controller.send(:vbulletin_login, :username => 'vb1')
     assert !@controller.send(:vbulletin_login, :email => 'vb1@example.com')
-    assert !@controller.send(:vbulletin_login, :login => 'vb1', :password => 'wrongpassword')
+    assert !@controller.send(:vbulletin_login, :username => 'vb1', :password => 'wrongpassword')
     assert !@controller.send(:vbulletin_login, :email => 'vb1@example.com', :password => 'wrongpassword')
-    assert_instance_of VBulletin::User, @controller.send(:vbulletin_login, :login => 'vb1', :password => 'password1')
+    assert_instance_of VBulletin::User, @controller.send(:vbulletin_login, :username => 'vb1', :password => 'password1')
     assert_instance_of VBulletin::User, (user = @controller.send(:vbulletin_login, :email => 'vb1@example.com', :password => 'password1'))
     assert_equal @controller.session[:vbulletin_userid], @vbulletin.userid
     assert_equal @controller.send(:cookies)[:bb_lastactivity], user.lastactivity

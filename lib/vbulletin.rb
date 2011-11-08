@@ -23,6 +23,7 @@ module VBulletin
 
   def self.fetch_alt_ip headers
     alt_ip = headers['REMOTE_ADDR']
+    alt_ip = headers['HTTP_X_REAL_IP'] if headers['HTTP_X_REAL_IP'] # proxy_pass nginx support for unicorn/passenger standalone instances
 
     if headers['HTTP_CLIENT_IP']
       alt_ip = headers['HTTP_CLIENT_IP']

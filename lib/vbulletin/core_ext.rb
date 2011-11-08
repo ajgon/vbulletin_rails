@@ -1,12 +1,13 @@
 module ActiveRecord
   class Base
-    def self.create_vbulletin(email = :email, password = :password, username = :login)
+    def self.create_vbulletin
       after_create :add_vbulletin
     end
 
     private
     def add_vbulletin
-      VBulletin::User.register(:email => self.send(email), :password => self.send(password), :username => (self.respond_to?(username) ? self.send(username) : nil))
+      #TODO make it parametable
+      VBulletin::User.register(:email => self.email, :password => self.password, :username => (self.respond_to?(:username) ? self.username : nil))
     end
   end
 end
@@ -19,8 +20,8 @@ module ActionController
     private
     def vbulletin_login options = {}
       user = nil
-      if options[:login]
-        user = VBulletin::User.find_by_username(options[:login])
+      if options[:username]
+        user = VBulletin::User.find_by_username(options[:username])
       elsif options[:email]
         user = VBulletin::User.find_by_email(options[:email])
       end
@@ -36,6 +37,7 @@ module ActionController
     end
 
     def vbulletin_logout
+      VBulletin::Session.destroy(cookies[:bb_sessionhash])
       cookies.delete(:bb_lastactivity)
       cookies.delete(:bb_lastvisit)
       cookies.delete(:bb_sessionhash)

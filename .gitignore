@@ -1,5 +1,5 @@
 .bundle
-vbulletin.tmproj
+vbulletin.komodoproject
 Gemfile.lock
 test/dummy/log/*.log
 test/dummy/tmp
