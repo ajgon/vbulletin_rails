@@ -26,7 +26,7 @@ module VBulletin
 
       user = nil
       user = User.find_by_email(options[:email]) if options[:email]
-      user = User.find_by_username(options[:username]) if options[:username]
+      user = User.find_by_username(options[:username]) if options[:username] and user.blank?
       raise VBulletinException, 'User not found' unless user
 
       nowstamp = Time.now.to_i

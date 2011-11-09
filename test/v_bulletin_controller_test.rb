@@ -9,6 +9,7 @@ class VBulletinControllerTest < ActiveSupport::TestCase
     @vbulletin = VBulletin::User.register(:email => 'vb1@example.com', :username => 'vb1', :password => 'password1')
     @controller = ActionController::Base.new
     @controller.request = ActionDispatch::TestRequest.new
+    VBulletin::Session.connection.execute("ALTER TABLE `#{VBulletin::Session.table_name}` CHANGE `sessionhash` `sessionhash` char(32) NOT NULL DEFAULT ''") # Hack for Rails primary key convention
   end
 
   def teardown
@@ -24,6 +25,8 @@ class VBulletinControllerTest < ActiveSupport::TestCase
     assert !@controller.send(:vbulletin_login, :email => 'vb1@example.com', :password => 'wrongpassword')
     assert_instance_of VBulletin::User, @controller.send(:vbulletin_login, :username => 'vb1', :password => 'password1')
     assert_instance_of VBulletin::User, (user = @controller.send(:vbulletin_login, :email => 'vb1@example.com', :password => 'password1'))
+    assert_instance_of VBulletin::User, (user = @controller.send(:vbulletin_login, :username => 'wrongusername', :email => 'vb1@example.com', :password => 'password1'))
+    assert_instance_of VBulletin::User, (user = @controller.send(:vbulletin_login, :username => 'vb1', :email => 'wrongemail@example.com', :password => 'password1'))
     assert_equal @controller.session[:vbulletin_userid], @vbulletin.userid
     assert_equal @controller.send(:cookies)[:bb_lastactivity], user.lastactivity
     assert_equal @controller.send(:cookies)[:bb_lastvisit], user.lastvisit
