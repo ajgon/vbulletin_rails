@@ -15,7 +15,7 @@ end
 module ActionController
   class Base
 
-    after_filter :act_as_vbulletin
+    before_filter :act_as_vbulletin
 
     private
     def vbulletin_login options = {}
