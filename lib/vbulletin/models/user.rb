@@ -15,7 +15,15 @@ module VBulletin
     def authenticate(passwd)
       User.password_hash(passwd.to_s, salt) == password ? self : false
     end
+    
+    def authenticate_bb_password(bb_password_hash)
+      bb_password_hash == bb_password ? self : false
+    end
 
+    def bb_password
+      Digest::MD5.hexdigest(password + Rails.configuration.vbulletin.cookie_salt)
+    end
+    
     def self.register options
       options = options.symbolize_keys
 
@@ -51,7 +59,7 @@ module VBulletin
         return vb_user
       end
     end
-
+    
     private
     def self.password_hash password, salt
       Digest::MD5.hexdigest(Digest::MD5.hexdigest(password) + salt)

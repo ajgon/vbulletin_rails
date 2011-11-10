@@ -48,15 +48,18 @@ class VBulletinTest < ActiveSupport::TestCase
   test 'alt_ip retriever' do
     headers = {'REMOTE_ADDR' => '199.99.99.99'}
     assert_equal headers['REMOTE_ADDR'], VBulletin::fetch_alt_ip(headers)
+    
+    headers['HTTP_X_REAL_IP'] = '199.99.99.9'
+    assert_equal headers['HTTP_X_REAL_IP'], VBulletin::fetch_alt_ip(headers)
 
     headers['HTTP_CLIENT_IP'] = '188.88.88.88'
     assert_equal headers['HTTP_CLIENT_IP'], VBulletin::fetch_alt_ip(headers)
     headers.delete('HTTP_CLIENT_IP')
 
     headers['HTTP_X_FORWARDED_FOR'] = '277.77.77.77, 166.66.66.66'
-    assert_equal headers['REMOTE_ADDR'], VBulletin::fetch_alt_ip(headers)
+    assert_equal headers['HTTP_X_REAL_IP'], VBulletin::fetch_alt_ip(headers)
     headers['HTTP_X_FORWARDED_FOR'] = @test_private_ips.keys.join(', ')
-    assert_equal headers['REMOTE_ADDR'], VBulletin::fetch_alt_ip(headers)
+    assert_equal headers['HTTP_X_REAL_IP'], VBulletin::fetch_alt_ip(headers)
     headers['HTTP_X_FORWARDED_FOR'] += ', 155.55.55.55'
     assert_equal '155.55.55.55', VBulletin::fetch_alt_ip(headers)
     headers['HTTP_X_FORWARDED_FOR'] = '144.44.44.44'
@@ -68,7 +71,7 @@ class VBulletinTest < ActiveSupport::TestCase
 
     headers['HTTP_CLIENT_IP'] = '122.22.22.22'
     headers['HTTP_X_FORWARDED_FOR'] = '111.111.111.111'
-    ['HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_FROM'].each do |header|
+    ['HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_FROM', 'HTTP_X_REAL_IP', 'REMOTE_ADDR'].each do |header|
       assert_equal headers[header], VBulletin::fetch_alt_ip(headers)
       headers.delete(header)
     end
