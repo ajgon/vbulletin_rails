@@ -39,6 +39,10 @@ module Dummy
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+  
+    # VBulletin COOKIE_SALT
+    config.vbulletin.cookie_salt = 'vBulletin   cookie   salt'
+
   end
 end
 

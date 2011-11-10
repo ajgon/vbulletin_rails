@@ -25,9 +25,10 @@ module VBulletin
       request = check_request options
 
       user = nil
-      user = User.find_by_email(options[:email]) if options[:email]
+      user = options[:user]
+      user = User.find_by_email(options[:email]) if options[:email] and user.blank?
       user = User.find_by_username(options[:username]) if options[:username] and user.blank?
-      raise VBulletinException, 'User not found' unless user
+      raise VBulletinException, 'User not found' unless user.is_a?(User)
 
       nowstamp = Time.now.to_i
       alt_ip = VBulletin::fetch_alt_ip(request.headers)
@@ -56,7 +57,7 @@ module VBulletin
     
     def self.destroy sessionhash
       session = find_by_sessionhash(sessionhash)
-      session.destroy
+      session.destroy if session
     end
 
     private

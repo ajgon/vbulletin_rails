@@ -19,18 +19,20 @@ module ActionController
 
     private
     def vbulletin_login options = {}
-      user = nil
-      user = VBulletin::User.find_by_email(options[:email]) if options[:email]
-      user = VBulletin::User.find_by_username(options[:username]) if options[:username] and user.blank?
+      vb_user = nil
+      vb_user = VBulletin::User.find_by_email(options[:email]) if options[:email]
+      vb_user = VBulletin::User.find_by_username(options[:username]) if options[:username] and vb_user.blank?
 
-      return false unless user and user.authenticate(options[:password])
+      return false unless vb_user and vb_user.authenticate(options[:password])
 
-      vb_session = VBulletin::Session.set(options.merge({:request => request}))
-      session[:vbulletin_userid] = vb_session.userid
+      vb_session = VBulletin::Session.set(options.merge({:request => request, :user => vb_user}))
+      session[:vbulletin_userid] = vb_user.userid
       cookies[:bb_lastactivity], cookies[:bb_lastvisit] = vb_session.update_timestamps
       cookies[:bb_sessionhash] = vb_session.sessionhash
+      
+      set_permanent_vbulletin_session_for vb_user if options[:permanent]
 
-      return user
+      return vb_user
     end
 
     def vbulletin_logout
@@ -38,24 +40,59 @@ module ActionController
       cookies.delete(:bb_lastactivity)
       cookies.delete(:bb_lastvisit)
       cookies.delete(:bb_sessionhash)
+      cookies.delete(:bb_userid)
+      cookies.delete(:bb_password)
       session.delete(:vbulletin_userid)
+      session.delete(:vbulletin_permanent)
     end
 
     def act_as_vbulletin
-      if cookies[:bb_sessionhash] and (vb_session = VBulletin::Session.find_by_sessionhash(cookies[:bb_sessionhash])) and vb_session.userid > 0
+      if (cookies[:bb_sessionhash] and (vb_session = VBulletin::Session.find_by_sessionhash(cookies[:bb_sessionhash])) and vb_session.userid > 0) or
+        (cookies[:bb_userid].to_i > 0 and (vb_user = VBulletin::User.find_by_userid(cookies[:bb_userid])) and vb_user.authenticate_bb_password(cookies[:bb_password]))
+        
+        if cookies[:bb_userid].to_i > 0 and (vb_user = VBulletin::User.find_by_userid(cookies[:bb_userid])) and vb_user.authenticate_bb_password(cookies[:bb_password])
+          vb_session = VBulletin::Session.set(:request => request, :user => vb_user)
+          set_permanent_vbulletin_session_for vb_user
+        end
+        
         session[:vbulletin_userid] = vb_session.userid unless session[:vbulletin_userid]
         cookies[:bb_lastactivity], cookies[:bb_lastvisit] = vb_session.update_timestamps
       else
         session.delete(:vbulletin_userid)
+        session.delete(:vbulletin_permanent)
       end
     end
 
+    def set_permanent_vbulletin_session_for vb_user
+      cookies.permanent[:bb_userid] = vb_user.userid
+      cookies.permanent[:bb_password] = vb_user.bb_password
+      session[:vbulletin_permanent] = true
+    end
+    
     def current_vbulletin_user
       VBulletin::User.find_by_userid(session[:vbulletin_userid])
     end
 
   end
 end
+
+module Rails
+  class Application
+    class Configuration < ::Rails::Engine::Configuration
+      def vbulletin
+        @vbulletin ||= ActiveSupport::OrderedOptions.new
+      end
+      
+      def vbulletin=(value)
+        @vbulletin ||= ActiveSupport::OrderedOptions.new
+        @vbulletin.value = value
+        value
+      end
+    end
+  end
+end
+
+#Rails.configuration.vbulletin = ActiveSupport::OrderedOptions.new
 
 
 # Fix enum parse bug by schema dumper

@@ -11,10 +11,12 @@ class VBulletinModelTest < ActiveSupport::TestCase
 
   def setup
     @vbulletin = VBulletin::User.register(:email => 'vb1@example.com', :username => 'vb1', :password => 'password1')
+    @vbulletin_second = VBulletin::User.register(:email => 'vb2@example.com', :username => 'vb2', :password => 'password2')
   end
 
   def teardown
     @vbulletin.destroy
+    @vbulletin_second.destroy
   end
 
   test "it should check vbulletin user authentication" do
@@ -80,11 +82,41 @@ class VBulletinModelTest < ActiveSupport::TestCase
       assert_equal 'User not found', e.message
     end
 
-    vb_session = VBulletin::Session.set(:request => request, :email => 'vb1@example.com')
+    [{:email => 'vb1@example.com'}, {:username => 'vb1'}, {:user => @vbulletin}].each do |params|
+      vb_session = VBulletin::Session.set({:request => request}.merge(params))
+      get_session = VBulletin::Session.get(:sessionhash => vb_session.sessionhash, :request => request)
+      assert_instance_of VBulletin::Session, get_session
+    end
+    
+    vb_session = VBulletin::Session.set(:request => request, :email => 'vb2@example.com', :username => 'vb2', :user => @vbulletin)
     get_session = VBulletin::Session.get(:sessionhash => vb_session.sessionhash, :request => request)
-
     assert_instance_of VBulletin::Session, get_session
+    assert_equal @vbulletin.userid, get_session.userid
 
+    vb_session = VBulletin::Session.set(:request => request, :email => 'vb1@example.com', :username => 'vb2')
+    get_session = VBulletin::Session.get(:sessionhash => vb_session.sessionhash, :request => request)
+    assert_instance_of VBulletin::Session, get_session
+    assert_equal @vbulletin.userid, get_session.userid
+
+    vb_session = VBulletin::Session.set(:request => request, :user => @vbulletin)
+    assert_raise ArgumentError do
+      VBulletin::Session.destroy
+    end
+    assert_nil VBulletin::Session.destroy(nil)
+    assert_nil VBulletin::Session.destroy('wrongsessionid')
+    assert_instance_of VBulletin::Session, VBulletin::Session.destroy(vb_session.sessionhash)
+    assert_nil VBulletin::Session.find_by_sessionhash(vb_session.sessionhash)
+    
+    vb_session = VBulletin::Session.set(:request => request, :user => @vbulletin)
+    vb_session_user_before_update = vb_session.user.dup
+    assert_equal [vb_session.user.reload.lastactivity, vb_session_user_before_update.lastvisit], vb_session.update_timestamps
+    assert_equal vb_session.lastactivity, vb_session.user.lastactivity
+    assert_equal vb_session_user_before_update.lastvisit, vb_session.user.lastvisit
+    vb_session.user.update_attributes(:lastactivity => Time.now - VBulletin::Session::VB_SESSION_TIMEOUT - 10)
+    vb_session_user_before_update = vb_session.user.reload.dup
+    assert_equal [vb_session.lastactivity, vb_session_user_before_update.lastactivity], vb_session.update_timestamps
+    assert_equal vb_session.lastactivity, vb_session.user.lastactivity
+    assert_equal vb_session_user_before_update.lastactivity, vb_session.user.lastvisit    
   end
 
 end
