@@ -24,18 +24,23 @@ module VBulletin
       Digest::MD5.hexdigest(password + Rails.configuration.vbulletin.cookie_salt)
     end
     
+    def password= passwd
+      new_salt = User.fresh_salt
+      self.passworddate = Date.today.to_s
+      self.salt = new_salt
+      self.send(:write_attribute, :password, User.password_hash(passwd.to_s, new_salt))
+    end
+    
     def self.register options
       options = options.symbolize_keys
 
       username = options[:username].blank? ? options[:email] : options[:username]
       nowstamp = Time.now.to_i
-      new_salt = fresh_salt
 
       vb_user = self.new({
         :usergroupid => 2,
         :username => username.to_s,
-        :password => password_hash(options[:password].to_s, new_salt),
-        :passworddate => Date.today.to_s,
+        :password => options[:password],
         :email => options[:email].to_s,
         :usertitle => 'Junior Member',
         :joindate => nowstamp,
@@ -47,8 +52,7 @@ module VBulletin
         :options => 45108311,
         :birthday_search => '1970-01-01',
         :startofweek => -1,
-        :languageid => 1,
-        :salt => new_salt
+        :languageid => 1
       })
       vb_user.userfield = Userfield.new
       vb_user.usertextfield = Usertextfield.new
