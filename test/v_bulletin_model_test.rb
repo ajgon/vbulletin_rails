@@ -44,6 +44,13 @@ class VBulletinModelTest < ActiveSupport::TestCase
     assert_equal nil, @vbulletin.birthday_search
     assert @vbulletin.userid.to_i > 0
   end
+  
+  test "it should update user password" do
+    new_password = 'newpassword'
+    @vbulletin.password = new_password
+    @vbulletin.save
+    assert_equal VBulletin::User.send(:password_hash, new_password, @vbulletin.salt), @vbulletin.password
+  end
 
   test "it should contain additional tables" do
     assert_kind_of VBulletin::Userfield, @vbulletin.userfield

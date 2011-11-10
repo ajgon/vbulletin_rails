@@ -1,13 +1,19 @@
 module ActiveRecord
   class Base
-    def self.create_vbulletin
+    def self.include_vbulletin
       after_create :add_vbulletin
+      after_update :update_vbulletin
     end
 
     private
     def add_vbulletin
       #TODO make it parametable
       VBulletin::User.register(:email => self.email, :password => self.password, :username => (self.respond_to?(:username) ? self.username : nil))
+    end
+    
+    def update_vbulletin
+      vb_user = VBulletin::User.find_by_email(self.email)
+      vb_user.password = self.password
     end
   end
 end
