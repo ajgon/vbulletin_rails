@@ -1,15 +1,15 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
-require "vbulletin/version"
+require "vbulletin_rails/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "vbulletin"
-  s.version     = VBulletin::VERSION
+  s.name        = "vbulletin_rails"
+  s.version     = VBulletinRails::VERSION
   s.authors     = ["Igor Rzegocki"]
   s.email       = ["igor.rzegocki@gmail.com"]
-  s.homepage    = "http://www.rzegocki.pl/"
+  s.homepage    = "https://github.com/ajgon/vbulletin_rails"
   s.summary     = "VBulletin integration for Rails"
   s.description = ""
 

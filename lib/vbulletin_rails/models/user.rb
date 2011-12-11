@@ -1,7 +1,7 @@
-module VBulletin
+module VBulletinRails
 
   # Model containing VBulletin User information
-  class User < VBulletin::Base
+  class User < VBulletinRails::Base
 
     set_primary_key(:userid)
     set_table_name(PREFIX + 'user')
@@ -14,12 +14,12 @@ module VBulletin
     has_one :usertextfield, :foreign_key => :userid, :dependent => :delete
     has_many :session, :foreign_key => :userid, :dependent => :delete_all
 
-    # Authenticate VBulletin user with provided password. Returns VBulletin::User object if success
+    # Authenticate VBulletin user with provided password. Returns VBulletinRails::User object if success
     def authenticate(passwd)
       User.password_hash(passwd.to_s, salt) == password ? self : false
     end
     
-    # Authenticate VBulletin user with provided session hash. Returns VBulletin::User object if success
+    # Authenticate VBulletin user with provided session hash. Returns VBulletinRails::User object if success
     def authenticate_bb_password(bb_password_hash)
       bb_password_hash == bb_password ? self : false
     end
@@ -29,7 +29,7 @@ module VBulletin
       Digest::MD5.hexdigest(password + Rails.configuration.vbulletin.cookie_salt)
     end
     
-    # Sets new VBulletin::User password
+    # Sets new VBulletinRails::User password
     def password= passwd
       new_salt = User.fresh_salt
       self.passworddate = Date.today.to_s
@@ -39,8 +39,8 @@ module VBulletin
     
     # Registers VBulletin user with given username/email and password
     #
-    #   VBulletin::User.register :username => 'username',      :password => 'user password'
-    #   VBulletin::User.register :email => 'user@example.com', :password => 'user password'
+    #   VBulletinRails::User.register :username => 'username',      :password => 'user password'
+    #   VBulletinRails::User.register :email => 'user@example.com', :password => 'user password'
     def self.register options
       options = options.symbolize_keys
 

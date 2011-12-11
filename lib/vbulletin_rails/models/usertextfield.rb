@@ -1,5 +1,5 @@
-module VBulletin
-  class Usertextfield < VBulletin::Base #:nodoc:
+module VBulletinRails
+  class Usertextfield < VBulletinRails::Base #:nodoc:
     set_table_name(PREFIX + 'usertextfield')
     set_primary_key(:userid)
 

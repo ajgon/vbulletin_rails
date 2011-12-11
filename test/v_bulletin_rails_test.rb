@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class VBulletinTest < ActiveSupport::TestCase #:nodoc:
+class VBulletinRailsTest < ActiveSupport::TestCase #:nodoc:
 
   def setup
     @test_bad_ips = [nil, 'test', 132, '127', '125.234', '164.234.232', '149.156.123.1111', '1111.1111.1111.1111', '172.256.3.22', '256.256.256.256']
@@ -26,53 +26,53 @@ class VBulletinTest < ActiveSupport::TestCase #:nodoc:
 
   test 'ip validator' do
     @test_bad_ips.each do |ip|
-      assert !VBulletin::valid_ip?(ip), "Interpretes as valid IP: #{ip}"
+      assert !VBulletinRails::valid_ip?(ip), "Interpretes as valid IP: #{ip}"
     end
     (@test_private_ips.keys + @test_public_ips.keys).each do |ip|
-      assert VBulletin::valid_ip?(ip), "Interpretes as invalid IP: #{ip}"
+      assert VBulletinRails::valid_ip?(ip), "Interpretes as invalid IP: #{ip}"
     end
   end
 
   test 'ip to long int converter' do
     @test_bad_ips.each do |ip|
-      assert !VBulletin::ip2long(ip), "Interpretes as valid IP: #{ip}"
+      assert !VBulletinRails::ip2long(ip), "Interpretes as valid IP: #{ip}"
     end
     (@test_private_ips.keys + @test_public_ips.keys).each do |ip|
-      assert VBulletin::ip2long(ip), "Interpretes as invalid IP: #{ip}"
+      assert VBulletinRails::ip2long(ip), "Interpretes as invalid IP: #{ip}"
     end
     @test_private_ips.merge(@test_public_ips).each_pair do |ip, longip|
-      assert_equal longip, VBulletin::ip2long(ip), "Wrong value for IP: #{ip}"
+      assert_equal longip, VBulletinRails::ip2long(ip), "Wrong value for IP: #{ip}"
     end
   end
 
   test 'alt_ip retriever' do
     headers = {'REMOTE_ADDR' => '199.99.99.99'}
-    assert_equal headers['REMOTE_ADDR'], VBulletin::fetch_alt_ip(headers)
+    assert_equal headers['REMOTE_ADDR'], VBulletinRails::fetch_alt_ip(headers)
     
     headers['HTTP_X_REAL_IP'] = '199.99.99.9'
-    assert_equal headers['HTTP_X_REAL_IP'], VBulletin::fetch_alt_ip(headers)
+    assert_equal headers['HTTP_X_REAL_IP'], VBulletinRails::fetch_alt_ip(headers)
 
     headers['HTTP_CLIENT_IP'] = '188.88.88.88'
-    assert_equal headers['HTTP_CLIENT_IP'], VBulletin::fetch_alt_ip(headers)
+    assert_equal headers['HTTP_CLIENT_IP'], VBulletinRails::fetch_alt_ip(headers)
     headers.delete('HTTP_CLIENT_IP')
 
     headers['HTTP_X_FORWARDED_FOR'] = '277.77.77.77, 166.66.66.66'
-    assert_equal headers['HTTP_X_REAL_IP'], VBulletin::fetch_alt_ip(headers)
+    assert_equal headers['HTTP_X_REAL_IP'], VBulletinRails::fetch_alt_ip(headers)
     headers['HTTP_X_FORWARDED_FOR'] = @test_private_ips.keys.join(', ')
-    assert_equal headers['HTTP_X_REAL_IP'], VBulletin::fetch_alt_ip(headers)
+    assert_equal headers['HTTP_X_REAL_IP'], VBulletinRails::fetch_alt_ip(headers)
     headers['HTTP_X_FORWARDED_FOR'] += ', 155.55.55.55'
-    assert_equal '155.55.55.55', VBulletin::fetch_alt_ip(headers)
+    assert_equal '155.55.55.55', VBulletinRails::fetch_alt_ip(headers)
     headers['HTTP_X_FORWARDED_FOR'] = '144.44.44.44'
-    assert_equal '144.44.44.44', VBulletin::fetch_alt_ip(headers)
+    assert_equal '144.44.44.44', VBulletinRails::fetch_alt_ip(headers)
     headers.delete('HTTP_X_FORWARDED_FOR')
 
     headers['HTTP_FROM'] = '133.33.33.33'
-    assert_equal '133.33.33.33', VBulletin::fetch_alt_ip(headers)
+    assert_equal '133.33.33.33', VBulletinRails::fetch_alt_ip(headers)
 
     headers['HTTP_CLIENT_IP'] = '122.22.22.22'
     headers['HTTP_X_FORWARDED_FOR'] = '111.111.111.111'
     ['HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_FROM', 'HTTP_X_REAL_IP', 'REMOTE_ADDR'].each do |header|
-      assert_equal headers[header], VBulletin::fetch_alt_ip(headers)
+      assert_equal headers[header], VBulletinRails::fetch_alt_ip(headers)
       headers.delete(header)
     end
 
@@ -80,15 +80,15 @@ class VBulletinTest < ActiveSupport::TestCase #:nodoc:
 
   test 'fetch_subtr_ip function test' do
     ip = '123.45.6.78'
-    assert_equal '123.45.6.78', VBulletin::fetch_substr_ip(ip, 0)
-    assert_equal '123.45.6.78', VBulletin::fetch_substr_ip(ip, 'test')
-    assert_equal '123.45.6.78', VBulletin::fetch_substr_ip(ip, nil)
-    assert_equal '123.45.6', VBulletin::fetch_substr_ip(ip)
-    assert_equal '123.45.6', VBulletin::fetch_substr_ip(ip, 25)
-    assert_equal '123.45.6', VBulletin::fetch_substr_ip(ip, 1)
-    assert_equal '123.45.6', VBulletin::fetch_substr_ip(ip, -1)
-    assert_equal '123.45', VBulletin::fetch_substr_ip(ip, 2)
-    assert_equal '123', VBulletin::fetch_substr_ip(ip, 3)
+    assert_equal '123.45.6.78', VBulletinRails::fetch_substr_ip(ip, 0)
+    assert_equal '123.45.6.78', VBulletinRails::fetch_substr_ip(ip, 'test')
+    assert_equal '123.45.6.78', VBulletinRails::fetch_substr_ip(ip, nil)
+    assert_equal '123.45.6', VBulletinRails::fetch_substr_ip(ip)
+    assert_equal '123.45.6', VBulletinRails::fetch_substr_ip(ip, 25)
+    assert_equal '123.45.6', VBulletinRails::fetch_substr_ip(ip, 1)
+    assert_equal '123.45.6', VBulletinRails::fetch_substr_ip(ip, -1)
+    assert_equal '123.45', VBulletinRails::fetch_substr_ip(ip, 2)
+    assert_equal '123', VBulletinRails::fetch_substr_ip(ip, 3)
   end
 
 end
