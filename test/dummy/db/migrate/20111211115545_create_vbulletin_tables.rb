@@ -1,4 +1,4 @@
-class CreateVbulletinTables < ActiveRecord::Migration
+class CreateVbulletinTables < ActiveRecord::Migration #:nodoc:
   def self.up
     create_table "session", :primary_key => "sessionhash", :force => true do |t|
       t.integer "userid",                        :default => 0,  :null => false

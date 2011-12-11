@@ -3,7 +3,7 @@ require 'test_helper'
 require 'action_dispatch/testing/test_request'
 require 'vbulletin/core_ext'
 
-class VBulletinControllerTest < ActiveSupport::TestCase
+class VBulletinControllerTest < ActiveSupport::TestCase #:nodoc:
 
   def setup
     @vbulletin = VBulletin::User.register(:email => 'vb1@example.com', :username => 'vb1', :password => 'password1')

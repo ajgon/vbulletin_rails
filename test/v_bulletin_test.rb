@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class VBulletinTest < ActiveSupport::TestCase
+class VBulletinTest < ActiveSupport::TestCase #:nodoc:
 
   def setup
     @test_bad_ips = [nil, 'test', 132, '127', '125.234', '164.234.232', '149.156.123.1111', '1111.1111.1111.1111', '172.256.3.22', '256.256.256.256']

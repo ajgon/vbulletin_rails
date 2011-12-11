@@ -7,7 +7,7 @@ require 'vbulletin/models/userfield'
 require 'vbulletin/models/usertextfield'
 require 'vbulletin/models/session'
 
-class VBulletinModelTest < ActiveSupport::TestCase
+class VBulletinModelTest < ActiveSupport::TestCase #:nodoc:
 
   def setup
     @vbulletin = VBulletin::User.register(:email => 'vb1@example.com', :username => 'vb1', :password => 'password1')

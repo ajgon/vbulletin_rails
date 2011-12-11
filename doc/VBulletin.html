@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>Module: VBulletin</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/vbulletin/models/session.rb
+    <li>lib/vbulletin/models/base.rb
+    <li>lib/vbulletin/models/usertextfield.rb
+    <li>lib/vbulletin/models/userfield.rb
+    <li>lib/vbulletin/models/user.rb
+    <li>lib/vbulletin/version.rb
+    <li>lib/vbulletin.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-fetch_alt_ip">::fetch_alt_ip</a>
+    
+    <li><a href="#method-c-fetch_substr_ip">::fetch_substr_ip</a>
+    
+    <li><a href="#method-c-idhash">::idhash</a>
+    
+    <li><a href="#method-c-ip2long">::ip2long</a>
+    
+    <li><a href="#method-c-valid_ip-3F">::valid_ip?</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./LICENSE.html">LICENSE</a>
+  
+    <li class="file"><a href="./TODO.html">TODO</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./VBulletin.html">VBulletin</a>
+  
+    <li><a href="./VBulletin/Base.html">VBulletin::Base</a>
+  
+    <li><a href="./VBulletin/Session.html">VBulletin::Session</a>
+  
+    <li><a href="./VBulletin/User.html">VBulletin::User</a>
+  
+    <li><a href="./Rails/Application/Configuration.html">Rails::Application::Configuration</a>
+  
+    <li><a href="./ActionController/Base.html">ActionController::Base</a>
+  
+    <li><a href="./ActiveRecord/Base.html">ActiveRecord::Base</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module VBulletin</h1>
+
+  <div id="description" class="description">
+    
+<p>This gem adds full support of PHP <a href="VBulletin.html">VBulletin</a>
+forum in Rails application</p>
+<dl class="rdoc-list note-list"><dt>Author
+<dd>
+<p>Igor Rzegocki (<a
+href="mailto:igor.rzegocki@gmail.com">igor.rzegocki@gmail.com</a>)</p>
+</dd><dt>Copyright
+<dd>
+<p>Copyright © 2011 Igor Rzegocki</p>
+</dd><dt>License
+<dd>
+<p>MIT License</p>
+</dd></dl>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="VERSION">VERSION
+        
+        <dd class="description"><p>Plugin version</p>
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-fetch_alt_ip" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">fetch_alt_ip</span><span
+            class="method-args">(headers)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>This is a port of original <code>fetch_alt_ip()</code> function from <a
+href="VBulletin.html">VBulletin</a> It was extended to detect
+<code>X-Real-IP</code> header which is set by convenction in nginx
+proxy_pass directives</p>
+<dl class="rdoc-list note-list"><dt>From <a href="VBulletin.html">VBulletin</a>
+<dd>
+<p><em>Fetches an alternate IP address of the current visitor, attempting to
+detect proxies etc.</em></p>
+</dd><dt>See
+<dd>
+<p>vbulletin/includes/class_core.php:2992 <code>fetch_alt_ip()</code></p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="fetch_alt_ip-source">
+            <pre><span class="ruby-comment"># File lib/vbulletin.rb, line 36</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">fetch_alt_ip</span> <span class="ruby-identifier">headers</span>
+  <span class="ruby-identifier">alt_ip</span> = <span class="ruby-identifier">headers</span>[<span class="ruby-string">'REMOTE_ADDR'</span>]
+  <span class="ruby-identifier">alt_ip</span> = <span class="ruby-identifier">headers</span>[<span class="ruby-string">'HTTP_X_REAL_IP'</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">headers</span>[<span class="ruby-string">'HTTP_X_REAL_IP'</span>] <span class="ruby-comment"># proxy_pass nginx support for unicorn/passenger standalone instances</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">headers</span>[<span class="ruby-string">'HTTP_CLIENT_IP'</span>]
+    <span class="ruby-identifier">alt_ip</span> = <span class="ruby-identifier">headers</span>[<span class="ruby-string">'HTTP_CLIENT_IP'</span>]
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">headers</span>[<span class="ruby-string">'HTTP_X_FORWARDED_FOR'</span>] <span class="ruby-keyword">and</span> <span class="ruby-identifier">valid_ip?</span>(<span class="ruby-identifier">headers</span>[<span class="ruby-string">'HTTP_X_FORWARDED_FOR'</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">','</span>).<span class="ruby-identifier">first</span>.<span class="ruby-identifier">strip</span>)
+    <span class="ruby-identifier">ranges</span> = {
+      <span class="ruby-string">'10.0.0.0/8'</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">ip2long</span>(<span class="ruby-string">'10.0.0.0'</span>), <span class="ruby-identifier">ip2long</span>(<span class="ruby-string">'10.255.255.255'</span>)],
+      <span class="ruby-string">'127.0.0.0/8'</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">ip2long</span>(<span class="ruby-string">'127.0.0.0'</span>), <span class="ruby-identifier">ip2long</span>(<span class="ruby-string">'127.255.255.255'</span>)],
+      <span class="ruby-string">'169.254.0.0/16'</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">ip2long</span>(<span class="ruby-string">'169.254.0.0'</span>), <span class="ruby-identifier">ip2long</span>(<span class="ruby-string">'169.254.255.255'</span>)],
+      <span class="ruby-string">'172.16.0.0/12'</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">ip2long</span>(<span class="ruby-string">'172.16.0.0'</span>), <span class="ruby-identifier">ip2long</span>(<span class="ruby-string">'172.31.255.255'</span>)],
+      <span class="ruby-string">'192.168.0.0/16'</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">ip2long</span>(<span class="ruby-string">'192.168.0.0'</span>), <span class="ruby-identifier">ip2long</span>(<span class="ruby-string">'192.168.255.255'</span>)]
+    }
+    <span class="ruby-identifier">ips</span> = <span class="ruby-identifier">headers</span>[<span class="ruby-string">'HTTP_X_FORWARDED_FOR'</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">','</span>)
+    <span class="ruby-identifier">ips</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ip</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">ip</span> = <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">strip</span>
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">valid_ip?</span>(<span class="ruby-identifier">ip</span>) <span class="ruby-keyword">and</span> (<span class="ruby-identifier">ip_long</span> = <span class="ruby-identifier">ip2long</span>(<span class="ruby-identifier">ip</span>))
+      <span class="ruby-identifier">private_ip</span> = <span class="ruby-keyword">false</span>
+      <span class="ruby-identifier">ranges</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">range</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">ip_long</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">first</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">ip_long</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">range</span>.<span class="ruby-identifier">last</span>
+          <span class="ruby-identifier">private_ip</span> = <span class="ruby-keyword">true</span>
+          <span class="ruby-keyword">break</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-keyword">unless</span> <span class="ruby-identifier">private_ip</span>
+        <span class="ruby-identifier">alt_ip</span> = <span class="ruby-identifier">ip</span>
+        <span class="ruby-keyword">break</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">headers</span>[<span class="ruby-string">'HTTP_FROM'</span>]
+    <span class="ruby-identifier">alt_ip</span> = <span class="ruby-identifier">headers</span>[<span class="ruby-string">'HTTP_FROM'</span>]
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">alt_ip</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- fetch_alt_ip-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- fetch_alt_ip-method -->
+
+    
+      <div id="method-c-fetch_substr_ip" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">fetch_substr_ip</span><span
+            class="method-args">(ip, length = 1)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>This is a port of original <code>fetch_substr_ip()</code> function from <a
+href="VBulletin.html">VBulletin</a></p>
+<dl class="rdoc-list note-list"><dt>From <a href="VBulletin.html">VBulletin</a>
+<dd>
+<p><em>Returns the IP address with the specified number of octets removed</em></p>
+</dd><dt>See
+<dd>
+<p>vbulletin/includes/class_core.php:3836 <code>fetch_substr_ip()</code></p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="fetch_substr_ip-source">
+            <pre><span class="ruby-comment"># File lib/vbulletin.rb, line 78</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">fetch_substr_ip</span>(<span class="ruby-identifier">ip</span>, <span class="ruby-identifier">length</span> = <span class="ruby-value">1</span>)
+  <span class="ruby-identifier">length</span> = <span class="ruby-identifier">length</span>.<span class="ruby-identifier">to_i</span>
+  <span class="ruby-identifier">length</span> = <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">3</span>
+
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">'.'</span>)[<span class="ruby-value">0</span><span class="ruby-operator">..</span>(<span class="ruby-value">3</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">length</span>)].<span class="ruby-identifier">join</span>(<span class="ruby-string">'.'</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- fetch_substr_ip-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- fetch_substr_ip-method -->
+
+    
+      <div id="method-c-idhash" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">idhash</span><span
+            class="method-args">(alt_ip, user_agent)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Generates hash of the current <a href="VBulletin.html">VBulletin</a>
+session</p>
+          
+
+          
+          <div class="method-source-code" id="idhash-source">
+            <pre><span class="ruby-comment"># File lib/vbulletin.rb, line 86</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">idhash</span> <span class="ruby-identifier">alt_ip</span>, <span class="ruby-identifier">user_agent</span>
+  <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">MD5</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-identifier">user_agent</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">fetch_substr_ip</span>(<span class="ruby-identifier">alt_ip</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- idhash-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- idhash-method -->
+
+    
+      <div id="method-c-ip2long" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ip2long</span><span
+            class="method-args">(ip)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Converts dotted IP address representation to its decimal value</p>
+          
+
+          
+          <div class="method-source-code" id="ip2long-source">
+            <pre><span class="ruby-comment"># File lib/vbulletin.rb, line 26</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ip2long</span> <span class="ruby-identifier">ip</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">valid_ip?</span>(<span class="ruby-identifier">ip</span>)
+  <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">'.'</span>).<span class="ruby-identifier">inject</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">i</span>,<span class="ruby-identifier">j</span><span class="ruby-operator">|</span> (<span class="ruby-identifier">i</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">8</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">j</span>.<span class="ruby-identifier">to_i</span>}.<span class="ruby-identifier">to_i</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ip2long-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ip2long-method -->
+
+    
+      <div id="method-c-valid_ip-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">valid_ip?</span><span
+            class="method-args">(ip)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Validates if given string is a valid IP address</p>
+          
+
+          
+          <div class="method-source-code" id="valid_ip-3F-source">
+            <pre><span class="ruby-comment"># File lib/vbulletin.rb, line 21</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">valid_ip?</span> <span class="ruby-identifier">ip</span>
+  <span class="ruby-operator">!</span><span class="ruby-operator">!</span><span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">/^\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b$/</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- valid_ip-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- valid_ip-3F-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.11.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

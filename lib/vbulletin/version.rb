@@ -1,3 +1,4 @@
 module VBulletin
-  VERSION = "0.0.1"
+  # Plugin version
+  VERSION = "0.1"
 end

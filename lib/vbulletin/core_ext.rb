@@ -1,16 +1,30 @@
 module ActiveRecord
+
+  # ActiveRecord::Base extension for vbulletin methods
   class Base
+
+    # Method used in user processing model to include vbulletin support
+    #
+    #   class User < ActiveRecord::Base
+    #     include_vbulletin
+    #   end
+    #
+    # With this method included, two hooks on User are added:
+    # * When user is created - additional VBulletin account corresponding to user email and password is created, see: add_vbulletin
+    # * When user is updated - corresponding VBulletin password is updated, see: update_vbulletin 
     def self.include_vbulletin
       after_create :add_vbulletin
       after_update :update_vbulletin
     end
 
     private
+    # Filter launched <tt>after_create</tt>, it registers given user in VBulletin forum
     def add_vbulletin
       #TODO make it parametable
       VBulletin::User.register(:email => self.email, :password => self.password, :username => (self.respond_to?(:username) ? self.username : nil))
     end
 
+    # Filter launched <tt>after_update</tt>, updates VBulletin user password
     def update_vbulletin
       vb_user = VBulletin::User.find_by_email(self.email)
       vb_user.password = self.password
@@ -18,12 +32,20 @@ module ActiveRecord
   end
 end
 
-module ActionController
+#:nodoc: all
+module ActionController #:nodoc:
+
+  # ActionController::Base extension for vbulletin methods
   class Base
 
     before_filter :act_as_vbulletin
 
     private
+    # Signs in VBulletin user, when correct email/username and password are provided
+    # It also sets <tt>session[:vbulletin_userid]</tt> to <tt>VBulletin::User#userid</tt> which can be checked in your application if needed.
+    #
+    #   vbulletin_login :email => 'user@example.com', :password => 'user password' # signs in by user email
+    #   vbulletin_login :username => 'username',      :password => 'user password' # signs in by username
     def vbulletin_login options = {}
       vb_user = nil
       vb_user = VBulletin::User.find_by_email(options[:email]) if options[:email]
@@ -40,7 +62,8 @@ module ActionController
 
       return vb_user
     end
-
+    
+    # Destroys VBulletin user session
     def vbulletin_logout
       VBulletin::Session.destroy(cookies[:bb_sessionhash])
       cookies.delete(:bb_lastactivity)
@@ -52,6 +75,15 @@ module ActionController
       session.delete(:vbulletin_permanent)
     end
 
+    # It checks for VBulletin cookies and determines status of the user.
+    # When user is logged in VBulletin, but not logged in application, this method takes care of it and signs user in as well.
+    # Same for log out - if user logged out from VBulletin forum, any request to application will log him out.
+    # By default this filter is turned on. To disable it, user skip_before_filter in desired controller or globally.
+    #
+    # Example
+    #   class ApplicationController < ActionController::Base
+    #     skip_before_filter :act_as_vbulletin
+    #   end
     def act_as_vbulletin
       if (cookies[:bb_sessionhash] and (vb_session = VBulletin::Session.find_by_sessionhash(cookies[:bb_sessionhash])) and vb_session.userid > 0) or
         (cookies[:bb_userid].to_i > 0 and (vb_user = VBulletin::User.find_by_userid(cookies[:bb_userid])) and vb_user.authenticate_bb_password(cookies[:bb_password]))
@@ -69,12 +101,25 @@ module ActionController
       end
     end
 
+    # If your application uses "Remember me" variation, this method takes care for VBulletin and sets remember me cookie as well.
+    # It takes VBulletin::User instance as parameter.
+    # It also sets <tt>session[:vbulletin_permanent]</tt> to <tt>true</tt> which can be checked in your application if needed.
+    #
+    # To use it, a <tt>config.vbulletin.cookie_salt</tt> must be set. See: Rails::Application::Configuration vbulletin options
+    #
+    #   class SessionsController < ApplicationController
+    #     def create
+    #       vb_user = VBulletin::User.find_by_email('user@example.com')
+    #       set_permanent_vbulletin_session_for vb_user
+    #     end
+    #   end
     def set_permanent_vbulletin_session_for vb_user
       cookies.permanent[:bb_userid] = vb_user.userid
       cookies.permanent[:bb_password] = vb_user.bb_password
       session[:vbulletin_permanent] = true
     end
 
+    # Returns VBulletin::User object of currently logged in user. Analogic to standard, convenctional <tt>current_user</tt> method.
     def current_vbulletin_user
       VBulletin::User.find_by_userid(session[:vbulletin_userid])
     end
@@ -82,13 +127,21 @@ module ActionController
   end
 end
 
-module Rails
-  class Application
+#:nodoc: all
+module Rails 
+  class Application #:nodoc:
+
+    # Add config.vbulletin.<parameter> accessor. Supported parameters are:
+    # * <tt>config.vbulletin.cookie_salt = 'COOKIE_SALT'</tt> - required if you want to user "Remember me" functionality.
+    #   It contains a VBulletin <tt>COOKIE_SALT</tt> special value, which is used when creating "Remember me" cookie.
+    #   Cookie salt is located in <tt>includes/functions.php</tt> in line 34 of your VBulletin package and is unique for every application.
     class Configuration < ::Rails::Engine::Configuration
+      # Adds config.vbulletin.<parameter> reader support
       def vbulletin
         @vbulletin ||= ActiveSupport::OrderedOptions.new
       end
 
+      # Adds config.vbulletin.<parameter> writer support
       def vbulletin=(value)
         @vbulletin ||= ActiveSupport::OrderedOptions.new
         @vbulletin.value = value
@@ -98,10 +151,8 @@ module Rails
   end
 end
 
-#Rails.configuration.vbulletin = ActiveSupport::OrderedOptions.new
 
 
-# Fix enum parse bug by schema dumper
 module ActiveRecord
   class SchemaDumper #:nodoc:
     private_class_method :new
@@ -118,7 +169,6 @@ module ActiveRecord
 
   end
 end
-# --
 
 ActiveRecord::SchemaDumper.ignore_tables += ['vb_access', 'vb_action', 'vb_ad', 'vb_adcriteria', 'vb_adminhelp', 'vb_administrator', 'vb_adminlog', 'vb_adminmessage', 'vb_adminutil',
                                              'vb_album', 'vb_albumupdate', 'vb_announcement', 'vb_announcementread', 'vb_apiclient', 'vb_apilog', 'vb_apipost', 'vb_attachment',

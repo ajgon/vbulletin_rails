@@ -1,4 +1,6 @@
 module VBulletin
+
+  # Model containing VBulletin User information
   class User < VBulletin::Base
 
     set_primary_key(:userid)
@@ -12,18 +14,22 @@ module VBulletin
     has_one :usertextfield, :foreign_key => :userid, :dependent => :delete
     has_many :session, :foreign_key => :userid, :dependent => :delete_all
 
+    # Authenticate VBulletin user with provided password. Returns VBulletin::User object if success
     def authenticate(passwd)
       User.password_hash(passwd.to_s, salt) == password ? self : false
     end
     
+    # Authenticate VBulletin user with provided session hash. Returns VBulletin::User object if success
     def authenticate_bb_password(bb_password_hash)
       bb_password_hash == bb_password ? self : false
     end
 
+    # Returns correct VBulletin session hash for user
     def bb_password
       Digest::MD5.hexdigest(password + Rails.configuration.vbulletin.cookie_salt)
     end
     
+    # Sets new VBulletin::User password
     def password= passwd
       new_salt = User.fresh_salt
       self.passworddate = Date.today.to_s
@@ -31,6 +37,10 @@ module VBulletin
       self.send(:write_attribute, :password, User.password_hash(passwd.to_s, new_salt))
     end
     
+    # Registers VBulletin user with given username/email and password
+    #
+    #   VBulletin::User.register :username => 'username',      :password => 'user password'
+    #   VBulletin::User.register :email => 'user@example.com', :password => 'user password'
     def self.register options
       options = options.symbolize_keys
 
@@ -65,10 +75,12 @@ module VBulletin
     end
     
     private
+    #:nodoc:
     def self.password_hash password, salt
       Digest::MD5.hexdigest(Digest::MD5.hexdigest(password) + salt)
     end
 
+    #:nodoc:
     def self.fresh_salt length = 30
       (1..length).map {(rand(33) + 93).chr}.join
     end
