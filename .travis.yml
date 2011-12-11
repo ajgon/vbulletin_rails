@@ -1,0 +1,6 @@
+# .travis.yml
+rvm: 1.9.3
+before_script:
+  - "mysql -e 'create database vbulletin_test;'"
+  - "cp test/dummy/config/database.yml.travis test/dummy/config/database.yml"
+  - "sh -c 'cd test/dummy && rake db:migrate'"
