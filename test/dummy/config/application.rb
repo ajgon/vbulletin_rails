@@ -4,8 +4,8 @@ require 'rails/all'
 
 Bundler.require
 
-module Dummy
-  class Application < Rails::Application
+module Dummy #:nodoc:
+  class Application < Rails::Application #:nodoc:
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

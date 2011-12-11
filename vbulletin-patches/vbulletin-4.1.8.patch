@@ -1,0 +1,19 @@
+*** includes/functions_login.php.orign	2011-11-07 15:00:35.000000000 +0100
+--- includes/functions_login.php	2011-11-07 15:01:29.000000000 +0100
+***************
+*** 164,170 ****
+  		"convert_unicode_char_to_charset('\\1', vB_Template_Runtime::fetchStyleVar('charset'))",
+  		$username
+  	);
+! 	if ($vbulletin->userinfo = $vbulletin->db->query_first("SELECT userid, usergroupid, membergroupids, infractiongroupids, username, password, salt FROM " . TABLE_PREFIX . "user WHERE username = '" . $vbulletin->db->escape_string(htmlspecialchars_uni($username)) . "'"))
+  	{
+  		if (
+  			$vbulletin->userinfo['password'] != iif($password AND !$md5password, md5(md5($password) . $vbulletin->userinfo['salt']), '') AND
+--- 164,170 ----
+  		"convert_unicode_char_to_charset('\\1', vB_Template_Runtime::fetchStyleVar('charset'))",
+  		$username
+  	);
+!  	if ($vbulletin->userinfo = $vbulletin->db->query_first("SELECT userid, usergroupid, membergroupids, infractiongroupids, username, password, salt FROM " . TABLE_PREFIX . "user WHERE '" . $vbulletin->db->escape_string(htmlspecialchars_uni($username)) . "' IN (username, email)"))
+  	{
+  		if (
+  			$vbulletin->userinfo['password'] != iif($password AND !$md5password, md5(md5($password) . $vbulletin->userinfo['salt']), '') AND

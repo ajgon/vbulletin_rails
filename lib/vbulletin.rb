@@ -7,20 +7,32 @@ require 'vbulletin/models/userfield'
 require 'vbulletin/models/usertextfield'
 require 'vbulletin/models/session'
 
+# This gem adds full support of PHP VBulletin forum in Rails application
+#
+# Author::    Igor Rzegocki (mailto:igor.rzegocki@gmail.com)
+# Copyright:: Copyright (c) 2011 Igor Rzegocki
+# License::   MIT License
 module VBulletin
 
-  class VBulletinException < Exception
+  class VBulletinException < Exception #:nodoc:
   end
 
+  # Validates if given string is a valid IP address
   def self.valid_ip? ip
     !!ip.to_s.match(/^\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b$/)
   end
 
+  # Converts dotted IP address representation to its decimal value
   def self.ip2long ip
     return false unless valid_ip?(ip)
     ip.split('.').inject {|i,j| (i.to_i << 8) + j.to_i}.to_i
   end
 
+  # This is a port of original <tt>fetch_alt_ip()</tt> function from VBulletin
+  # It was extended to detect <tt>X-Real-IP</tt> header which is set by convenction in nginx proxy_pass directives
+  #
+  # From VBulletin:: <em>Fetches an alternate IP address of the current visitor, attempting to detect proxies etc.</em>
+  # See:: vbulletin/includes/class_core.php:2992 <tt>fetch_alt_ip()</tt>
   def self.fetch_alt_ip headers
     alt_ip = headers['REMOTE_ADDR']
     alt_ip = headers['HTTP_X_REAL_IP'] if headers['HTTP_X_REAL_IP'] # proxy_pass nginx support for unicorn/passenger standalone instances
@@ -59,6 +71,10 @@ module VBulletin
     return alt_ip
   end
 
+  # This is a port of original <tt>fetch_substr_ip()</tt> function from VBulletin
+  #
+  # From VBulletin:: <em>Returns the IP address with the specified number of octets removed</em>
+  # See:: vbulletin/includes/class_core.php:3836 <tt>fetch_substr_ip()</tt>
   def self.fetch_substr_ip(ip, length = 1)
     length = length.to_i
     length = 1 if length < 0 or length > 3
@@ -66,6 +82,7 @@ module VBulletin
     return ip.split('.')[0..(3 - length)].join('.')
   end
 
+  # Generates hash of the current VBulletin session
   def self.idhash alt_ip, user_agent
     Digest::MD5.hexdigest(user_agent + fetch_substr_ip(alt_ip))
   end
