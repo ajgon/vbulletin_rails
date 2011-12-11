@@ -9,7 +9,6 @@ class VBulletinControllerTest < ActiveSupport::TestCase
     @vbulletin = VBulletin::User.register(:email => 'vb1@example.com', :username => 'vb1', :password => 'password1')
     @controller = ActionController::Base.new
     @controller.request = ActionDispatch::TestRequest.new
-    VBulletin::Session.connection.execute("ALTER TABLE `#{VBulletin::Session.table_name}` CHANGE `sessionhash` `sessionhash` char(32) NOT NULL DEFAULT ''") # Hack for Rails primary key convention
   end
 
   def teardown

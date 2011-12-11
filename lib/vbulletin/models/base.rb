@@ -7,7 +7,7 @@ module VBulletin
                 YAML_CONFIG[DB_ENV]['prefix']) ?
                 YAML_CONFIG[DB_ENV]['prefix'] + '_' :
                 '')
-    establish_connection(YAML_CONFIG[DB_ENV])
+    establish_connection(YAML_CONFIG[DB_ENV]) if YAML_CONFIG[DB_ENV]
     #TODO: -------------------------------------------------------------------------------------------------
   end
 end

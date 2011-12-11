@@ -1,0 +1,5 @@
+test:
+  adapter: mysql2
+  database: vbulletin_test
+  username: 
+  encoding: utf8
