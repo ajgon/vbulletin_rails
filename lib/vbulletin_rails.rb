@@ -1,20 +1,20 @@
 $LOAD_PATH << File.dirname(__FILE__) unless $LOAD_PATH.include?(File.dirname(__FILE__))
 
-require 'vbulletin/core_ext'
-require 'vbulletin/models/base'
-require 'vbulletin/models/user'
-require 'vbulletin/models/userfield'
-require 'vbulletin/models/usertextfield'
-require 'vbulletin/models/session'
+require 'vbulletin_rails/core_ext'
+require 'vbulletin_rails/models/base'
+require 'vbulletin_rails/models/user'
+require 'vbulletin_rails/models/userfield'
+require 'vbulletin_rails/models/usertextfield'
+require 'vbulletin_rails/models/session'
 
 # This gem adds full support of PHP VBulletin forum in Rails application
 #
 # Author::    Igor Rzegocki (mailto:igor.rzegocki@gmail.com)
 # Copyright:: Copyright (c) 2011 Igor Rzegocki
 # License::   MIT License
-module VBulletin
+module VBulletinRails
 
-  class VBulletinException < Exception #:nodoc:
+  class VBulletinRailsException < Exception #:nodoc:
   end
 
   # Validates if given string is a valid IP address

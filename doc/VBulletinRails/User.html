@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>Class: VBulletin::User</title>
+<title>Class: VBulletinRails::User</title>
 
 <link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
 
@@ -47,7 +47,7 @@
     <nav id="file-list-section" class="section">
   <h3 class="section-header">Defined In</h3>
   <ul>
-    <li>lib/vbulletin/models/user.rb
+    <li>lib/vbulletin_rails/models/user.rb
   </ul>
 </nav>
 
@@ -59,7 +59,7 @@
     <nav id="parent-class-section" class="section">
   <h3 class="section-header">Parent</h3>
   
-  <p class="link"><a href="Base.html">VBulletin::Base</a>
+  <p class="link"><a href="Base.html">VBulletinRails::Base</a>
   
 </nav>
 
@@ -103,13 +103,13 @@
 
   <ul class="link-list">
   
-    <li><a href="../VBulletin.html">VBulletin</a>
+    <li><a href="../VBulletinRails.html">VBulletinRails</a>
   
-    <li><a href="../VBulletin/Base.html">VBulletin::Base</a>
+    <li><a href="../VBulletinRails/Base.html">VBulletinRails::Base</a>
   
-    <li><a href="../VBulletin/Session.html">VBulletin::Session</a>
+    <li><a href="../VBulletinRails/Session.html">VBulletinRails::Session</a>
   
-    <li><a href="../VBulletin/User.html">VBulletin::User</a>
+    <li><a href="../VBulletinRails/User.html">VBulletinRails::User</a>
   
     <li><a href="../Rails/Application/Configuration.html">Rails::Application::Configuration</a>
   
@@ -124,12 +124,11 @@
 </nav>
 
 <div id="documentation">
-  <h1 class="class">class VBulletin::User</h1>
+  <h1 class="class">class VBulletinRails::User</h1>
 
   <div id="description" class="description">
     
-<p>Model containing <a href="../VBulletin.html">VBulletin</a> <a
-href="User.html">User</a> information</p>
+<p>Model containing VBulletin <a href="User.html">User</a> information</p>
 
   </div><!-- description -->
 
@@ -162,17 +161,16 @@ href="User.html">User</a> information</p>
 
         <div class="method-description">
           
-          <p>Registers <a href="../VBulletin.html">VBulletin</a> user with given
-username/email and password</p>
+          <p>Registers VBulletin user with given username/email and password</p>
 
-<pre class="ruby"><span class="ruby-constant">VBulletin</span><span class="ruby-operator">::</span><span class="ruby-constant">User</span>.<span class="ruby-identifier">register</span> :<span class="ruby-identifier">username</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'username'</span>,      :<span class="ruby-identifier">password</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'user password'</span>
-<span class="ruby-constant">VBulletin</span><span class="ruby-operator">::</span><span class="ruby-constant">User</span>.<span class="ruby-identifier">register</span> :<span class="ruby-identifier">email</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'user@example.com'</span>, :<span class="ruby-identifier">password</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'user password'</span>
+<pre class="ruby"><span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">User</span>.<span class="ruby-identifier">register</span> :<span class="ruby-identifier">username</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'username'</span>,      :<span class="ruby-identifier">password</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'user password'</span>
+<span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">User</span>.<span class="ruby-identifier">register</span> :<span class="ruby-identifier">email</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'user@example.com'</span>, :<span class="ruby-identifier">password</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'user password'</span>
 </pre>
           
 
           
           <div class="method-source-code" id="register-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin/models/user.rb, line 44</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 44</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">register</span> <span class="ruby-identifier">options</span>
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">symbolize_keys</span>
 
@@ -232,13 +230,13 @@ username/email and password</p>
 
         <div class="method-description">
           
-          <p>Authenticate <a href="../VBulletin.html">VBulletin</a> user with provided
-password. Returns <a href="User.html">VBulletin::User</a> object if success</p>
+          <p>Authenticate VBulletin user with provided password. Returns <a
+href="User.html">VBulletinRails::User</a> object if success</p>
           
 
           
           <div class="method-source-code" id="authenticate-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin/models/user.rb, line 18</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 18</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">authenticate</span>(<span class="ruby-identifier">passwd</span>)
   <span class="ruby-constant">User</span>.<span class="ruby-identifier">password_hash</span>(<span class="ruby-identifier">passwd</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-identifier">salt</span>) <span class="ruby-operator">==</span> <span class="ruby-identifier">password</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">self</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
@@ -263,14 +261,13 @@ password. Returns <a href="User.html">VBulletin::User</a> object if success</p>
 
         <div class="method-description">
           
-          <p>Authenticate <a href="../VBulletin.html">VBulletin</a> user with provided
-session hash. Returns <a href="User.html">VBulletin::User</a> object if
-success</p>
+          <p>Authenticate VBulletin user with provided session hash. Returns <a
+href="User.html">VBulletinRails::User</a> object if success</p>
           
 
           
           <div class="method-source-code" id="authenticate_bb_password-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin/models/user.rb, line 23</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 23</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">authenticate_bb_password</span>(<span class="ruby-identifier">bb_password_hash</span>)
   <span class="ruby-identifier">bb_password_hash</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">bb_password</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">self</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
@@ -295,13 +292,12 @@ success</p>
 
         <div class="method-description">
           
-          <p>Returns correct <a href="../VBulletin.html">VBulletin</a> session hash for
-user</p>
+          <p>Returns correct VBulletin session hash for user</p>
           
 
           
           <div class="method-source-code" id="bb_password-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin/models/user.rb, line 28</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 28</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">bb_password</span>
   <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">MD5</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-identifier">password</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">configuration</span>.<span class="ruby-identifier">vbulletin</span>.<span class="ruby-identifier">cookie_salt</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -326,12 +322,12 @@ user</p>
 
         <div class="method-description">
           
-          <p>Sets new <a href="User.html">VBulletin::User</a> password</p>
+          <p>Sets new <a href="User.html">VBulletinRails::User</a> password</p>
           
 
           
           <div class="method-source-code" id="password-3D-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin/models/user.rb, line 33</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">password=</span> <span class="ruby-identifier">passwd</span>
   <span class="ruby-identifier">new_salt</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">fresh_salt</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">passworddate</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>.<span class="ruby-identifier">to_s</span>

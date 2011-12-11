@@ -1,7 +1,7 @@
-module VBulletin
+module VBulletinRails
 
   # Automatic class for handling VBulletin users sessions.
-  class Session < VBulletin::Base
+  class Session < VBulletinRails::Base
 
     # Timeout used to set <tt>last_visit</tt> in database. Taken from VBulletin. Do not touch.
     VB_SESSION_TIMEOUT = 900
@@ -24,12 +24,12 @@ module VBulletin
       return [0, 0]
     end
 
-    # Sets user session for VBulletin. Needs VBulletin::User object, or email or username.
+    # Sets user session for VBulletin. Needs VBulletinRails::User object, or email or username.
     # Controller <tt>request</tt> is mandatory!
     #
-    #   VBulletin::Session.set :request => request, :user => vb_user
-    #   VBulletin::Session.set :request => request, :email => 'user@example.com'
-    #   VBulletin::Session.set :request => request, :username => 'username'
+    #   VBulletinRails::Session.set :request => request, :user => vb_user
+    #   VBulletinRails::Session.set :request => request, :email => 'user@example.com'
+    #   VBulletinRails::Session.set :request => request, :username => 'username'
     def self.set options = {}
       options = options.symbolize_keys
       request = check_request options
@@ -38,28 +38,28 @@ module VBulletin
       user = options[:user]
       user = User.find_by_email(options[:email]) if options[:email] and user.blank?
       user = User.find_by_username(options[:username]) if options[:username] and user.blank?
-      raise VBulletinException, 'User not found' unless user.is_a?(User)
+      raise VBulletinRailsException, 'User not found' unless user.is_a?(User)
 
       nowstamp = Time.now.to_i
-      alt_ip = VBulletin::fetch_alt_ip(request.headers)
+      alt_ip = VBulletinRails::fetch_alt_ip(request.headers)
       sessionhash = Digest::MD5.hexdigest((rand * Time.now.to_i * Time.now.usec).to_s)
 
       connection.execute("INSERT INTO `#{table_name}`
                           (`sessionhash`, `userid`, `host`, `idhash`, `lastactivity`, `location`, `useragent`)
                           VALUES
-                          ('#{sessionhash}', '#{user.userid}', '#{alt_ip}', '#{VBulletin::idhash(alt_ip, request.user_agent)}',
+                          ('#{sessionhash}', '#{user.userid}', '#{alt_ip}', '#{VBulletinRails::idhash(alt_ip, request.user_agent)}',
                           '#{nowstamp}', 'application', '#{request.user_agent}')")
 
       return find_by_sessionhash(sessionhash)
     end
 
-    # Returns VBulletin::Session object, needs session hash and request
+    # Returns VBulletinRails::Session object, needs session hash and request
     #
-    #   VBulletin::Session.get :request => request, :sessionhash => 'f588c74c9d6e1c7ad05abf6bcae2186f'
+    #   VBulletinRails::Session.get :request => request, :sessionhash => 'f588c74c9d6e1c7ad05abf6bcae2186f'
     def self.get options = {}
       options = options.symbolize_keys
       request = check_request options
-      idhash = VBulletin::idhash(VBulletin::fetch_alt_ip(request.headers), request.user_agent)
+      idhash = VBulletinRails::idhash(VBulletinRails::fetch_alt_ip(request.headers), request.user_agent)
       session = find_by_sessionhash(options[:sessionhash].to_s)
 
       if session
@@ -78,7 +78,7 @@ module VBulletin
     #:nodoc:
     def self.check_request options = {}
       request = options[:request]
-      raise VBulletinException, 'Request is mandatory' unless request
+      raise VBulletinRailsException, 'Request is mandatory' unless request
       return request
     end
 

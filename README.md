@@ -1,4 +1,4 @@
-# VBulletin [![Build Status](https://secure.travis-ci.org/ajgon/vbulletin.png)](http://travis-ci.org/ajgon/vbulletin)
+# VBulletin [![Build Status](https://secure.travis-ci.org/ajgon/vbulletin_rails.png)](http://travis-ci.org/ajgon/vbulletin_rails)
 
 Add single sign on to VBulletin forum in your Rails application
 
@@ -27,7 +27,7 @@ By default plugin assumes, that VBulletin database is the same as application, a
 * `vbulletin_<environment>` - with this section, you can provide database details if VBulletin database is located outside application database
 * `prefix` - VBulletin tables prefix - it has to be the same as in your VBulletin configuration
 
-See [database.yml example](http://rubydoc.info/github/ajgon/vbulletin/master/VBulletin/Base), for more details.
+See [database.yml example](http://rubydoc.info/github/ajgon/vbulletin_rails/master/VBulletinRails/Base), for more details.
 
 You may also need a `COOKIE_SALT` VBulletin constant if you want to handle permanent sessions. If yes, set this environment variable:
 
@@ -51,11 +51,11 @@ this will ensure, that vbulletin account will be created after registration, and
 User logging from VBulletin is handled out of box (which means, when user logs in into your VBulletin forum he will also log in into application).
 If you want to avoid this, use `skip_before_filter :act_as_vbulletin`.
 
-To handle session [vbulletin_login](http://rubydoc.info/github/ajgon/vbulletin/master/ActionController/Base:vbulletin_login), [vbulletin_logout](http://rubydoc.info/github/ajgon/vbulletin/master/ActionController/Base:vbulletin_logout), [set_permanent_vbulletin_session_for](http://rubydoc.info/github/ajgon/vbulletin/master/ActionController/Base:set_permanent_vbulletin_session_for) and [current_vbulletin_user](http://rubydoc.info/github/ajgon/vbulletin/master/ActionController/Base:current_vbulletin_user) are provided.
+To handle session [vbulletin_login](http://rubydoc.info/github/ajgon/vbulletin_rails/master/ActionController/Base:vbulletin_login), [vbulletin_logout](http://rubydoc.info/github/ajgon/vbulletin_rails/master/ActionController/Base:vbulletin_logout), [set_permanent_vbulletin_session_for](http://rubydoc.info/github/ajgon/vbulletin_rails/master/ActionController/Base:set_permanent_vbulletin_session_for) and [current_vbulletin_user](http://rubydoc.info/github/ajgon/vbulletin_rails/master/ActionController/Base:current_vbulletin_user) are provided.
 
 
 ## Development
 
-Questions or problems? Please post them on the [issue tracker](https://github.com/ajgon/vbulletin/issues). You can contribute changes by forking the project and submitting a pull request. You can ensure the tests passing by running `bundle` and `rake`.
+Questions or problems? Please post them on the [issue tracker](https://github.com/ajgon/vbulletin_rails/issues). You can contribute changes by forking the project and submitting a pull request. You can ensure the tests passing by running `bundle` and `rake`.
 
 This gem is created by Igor Rzegocki and is under the MIT License
