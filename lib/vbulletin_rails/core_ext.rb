@@ -21,12 +21,12 @@ module ActiveRecord
     # Filter launched <tt>after_create</tt>, it registers given user in VBulletin forum
     def add_vbulletin
       #TODO make it parametable
-      VBulletin::User.register(:email => self.email, :password => self.password, :username => (self.respond_to?(:username) ? self.username : nil))
+      VBulletinRails::User.register(:email => self.email, :password => self.password, :username => (self.respond_to?(:username) ? self.username : nil))
     end
 
     # Filter launched <tt>after_update</tt>, updates VBulletin user password
     def update_vbulletin
-      vb_user = VBulletin::User.find_by_email(self.email)
+      vb_user = VBulletinRails::User.find_by_email(self.email)
       vb_user.password = self.password
     end
   end
@@ -42,18 +42,18 @@ module ActionController #:nodoc:
 
     private
     # Signs in VBulletin user, when correct email/username and password are provided
-    # It also sets <tt>session[:vbulletin_userid]</tt> to <tt>VBulletin::User#userid</tt> which can be checked in your application if needed.
+    # It also sets <tt>session[:vbulletin_userid]</tt> to <tt>VBulletinRails::User#userid</tt> which can be checked in your application if needed.
     #
     #   vbulletin_login :email => 'user@example.com', :password => 'user password' # signs in by user email
     #   vbulletin_login :username => 'username',      :password => 'user password' # signs in by username
     def vbulletin_login options = {}
       vb_user = nil
-      vb_user = VBulletin::User.find_by_email(options[:email]) if options[:email]
-      vb_user = VBulletin::User.find_by_username(options[:username]) if options[:username] and vb_user.blank?
+      vb_user = VBulletinRails::User.find_by_email(options[:email]) if options[:email]
+      vb_user = VBulletinRails::User.find_by_username(options[:username]) if options[:username] and vb_user.blank?
 
       return false unless vb_user and vb_user.authenticate(options[:password])
 
-      vb_session = VBulletin::Session.set(options.merge({:request => request, :user => vb_user}))
+      vb_session = VBulletinRails::Session.set(options.merge({:request => request, :user => vb_user}))
       session[:vbulletin_userid] = vb_user.userid
       cookies[:bb_lastactivity], cookies[:bb_lastvisit] = vb_session.update_timestamps
       cookies[:bb_sessionhash] = vb_session.sessionhash
@@ -65,7 +65,7 @@ module ActionController #:nodoc:
     
     # Destroys VBulletin user session
     def vbulletin_logout
-      VBulletin::Session.destroy(cookies[:bb_sessionhash])
+      VBulletinRails::Session.destroy(cookies[:bb_sessionhash])
       cookies.delete(:bb_lastactivity)
       cookies.delete(:bb_lastvisit)
       cookies.delete(:bb_sessionhash)
@@ -85,11 +85,11 @@ module ActionController #:nodoc:
     #     skip_before_filter :act_as_vbulletin
     #   end
     def act_as_vbulletin
-      if (cookies[:bb_sessionhash] and (vb_session = VBulletin::Session.find_by_sessionhash(cookies[:bb_sessionhash])) and vb_session.userid > 0) or
-        (cookies[:bb_userid].to_i > 0 and (vb_user = VBulletin::User.find_by_userid(cookies[:bb_userid])) and vb_user.authenticate_bb_password(cookies[:bb_password]))
+      if (cookies[:bb_sessionhash] and (vb_session = VBulletinRails::Session.find_by_sessionhash(cookies[:bb_sessionhash])) and vb_session.userid > 0) or
+        (cookies[:bb_userid].to_i > 0 and (vb_user = VBulletinRails::User.find_by_userid(cookies[:bb_userid])) and vb_user.authenticate_bb_password(cookies[:bb_password]))
 
-        if cookies[:bb_userid].to_i > 0 and (vb_user = VBulletin::User.find_by_userid(cookies[:bb_userid])) and vb_user.authenticate_bb_password(cookies[:bb_password])
-          vb_session = VBulletin::Session.set(:request => request, :user => vb_user)
+        if cookies[:bb_userid].to_i > 0 and (vb_user = VBulletinRails::User.find_by_userid(cookies[:bb_userid])) and vb_user.authenticate_bb_password(cookies[:bb_password])
+          vb_session = VBulletinRails::Session.set(:request => request, :user => vb_user)
           set_permanent_vbulletin_session_for vb_user
         end
 
@@ -102,14 +102,14 @@ module ActionController #:nodoc:
     end
 
     # If your application uses "Remember me" variation, this method takes care for VBulletin and sets remember me cookie as well.
-    # It takes VBulletin::User instance as parameter.
+    # It takes VBulletinRails::User instance as parameter.
     # It also sets <tt>session[:vbulletin_permanent]</tt> to <tt>true</tt> which can be checked in your application if needed.
     #
     # To use it, a <tt>config.vbulletin.cookie_salt</tt> must be set. See: Rails::Application::Configuration vbulletin options
     #
     #   class SessionsController < ApplicationController
     #     def create
-    #       vb_user = VBulletin::User.find_by_email('user@example.com')
+    #       vb_user = VBulletinRails::User.find_by_email('user@example.com')
     #       set_permanent_vbulletin_session_for vb_user
     #     end
     #   end
@@ -119,9 +119,9 @@ module ActionController #:nodoc:
       session[:vbulletin_permanent] = true
     end
 
-    # Returns VBulletin::User object of currently logged in user. Analogic to standard, convenctional <tt>current_user</tt> method.
+    # Returns VBulletinRails::User object of currently logged in user. Analogic to standard, convenctional <tt>current_user</tt> method.
     def current_vbulletin_user
-      VBulletin::User.find_by_userid(session[:vbulletin_userid])
+      VBulletinRails::User.find_by_userid(session[:vbulletin_userid])
     end
 
   end

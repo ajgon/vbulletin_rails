@@ -47,7 +47,7 @@
     <nav id="file-list-section" class="section">
   <h3 class="section-header">Defined In</h3>
   <ul>
-    <li>lib/vbulletin/core_ext.rb
+    <li>lib/vbulletin_rails/core_ext.rb
   </ul>
 </nav>
 
@@ -97,13 +97,13 @@
 
   <ul class="link-list">
   
-    <li><a href="../../VBulletin.html">VBulletin</a>
+    <li><a href="../../VBulletinRails.html">VBulletinRails</a>
   
-    <li><a href="../../VBulletin/Base.html">VBulletin::Base</a>
+    <li><a href="../../VBulletinRails/Base.html">VBulletinRails::Base</a>
   
-    <li><a href="../../VBulletin/Session.html">VBulletin::Session</a>
+    <li><a href="../../VBulletinRails/Session.html">VBulletinRails::Session</a>
   
-    <li><a href="../../VBulletin/User.html">VBulletin::User</a>
+    <li><a href="../../VBulletinRails/User.html">VBulletinRails::User</a>
   
     <li><a href="../../Rails/Application/Configuration.html">Rails::Application::Configuration</a>
   
@@ -125,12 +125,11 @@
 <p>Add config.vbulletin.&lt;parameter&gt; accessor. Supported parameters are:</p>
 <ul><li>
 <p><code>config.vbulletin.cookie_salt = 'COOKIE_SALT'</code> - required if you
-want to user "Remember me" functionality. It contains a <a
-href="../../VBulletin.html">VBulletin</a> <code>COOKIE_SALT</code> special
-value, which is used when creating "Remember me" cookie. Cookie salt is
-located in <code>includes/functions.php</code> in line 34 of your <a
-href="../../VBulletin.html">VBulletin</a> package and is unique for every
-application.</p>
+want to user "Remember me" functionality. It contains a VBulletin
+<code>COOKIE_SALT</code> special value, which is used when creating
+"Remember me" cookie. Cookie salt is located in
+<code>includes/functions.php</code> in line 34 of your VBulletin package
+and is unique for every application.</p>
 </li></ul>
 
   </div><!-- description -->
@@ -169,7 +168,7 @@ application.</p>
 
           
           <div class="method-source-code" id="vbulletin-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin/core_ext.rb, line 140</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/core_ext.rb, line 140</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">vbulletin</span>
   <span class="ruby-ivar">@vbulletin</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">ActiveSupport</span><span class="ruby-operator">::</span><span class="ruby-constant">OrderedOptions</span>.<span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
@@ -199,7 +198,7 @@ application.</p>
 
           
           <div class="method-source-code" id="vbulletin-3D-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin/core_ext.rb, line 145</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/core_ext.rb, line 145</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">vbulletin=</span>(<span class="ruby-identifier">value</span>)
   <span class="ruby-ivar">@vbulletin</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">ActiveSupport</span><span class="ruby-operator">::</span><span class="ruby-constant">OrderedOptions</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@vbulletin</span>.<span class="ruby-identifier">value</span> = <span class="ruby-identifier">value</span>

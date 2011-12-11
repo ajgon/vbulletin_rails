@@ -1,12 +1,12 @@
 gem 'actionpack', '>= 3.0'
 require 'test_helper'
 require 'action_dispatch/testing/test_request'
-require 'vbulletin/core_ext'
+require 'vbulletin_rails/core_ext'
 
-class VBulletinControllerTest < ActiveSupport::TestCase #:nodoc:
+class VBulletinRailsControllerTest < ActiveSupport::TestCase #:nodoc:
 
   def setup
-    @vbulletin = VBulletin::User.register(:email => 'vb1@example.com', :username => 'vb1', :password => 'password1')
+    @vbulletin = VBulletinRails::User.register(:email => 'vb1@example.com', :username => 'vb1', :password => 'password1')
     @controller = ActionController::Base.new
     @controller.request = ActionDispatch::TestRequest.new
   end
@@ -22,15 +22,15 @@ class VBulletinControllerTest < ActiveSupport::TestCase #:nodoc:
     assert !@controller.send(:vbulletin_login, :email => 'vb1@example.com')
     assert !@controller.send(:vbulletin_login, :username => 'vb1', :password => 'wrongpassword')
     assert !@controller.send(:vbulletin_login, :email => 'vb1@example.com', :password => 'wrongpassword')
-    assert_instance_of VBulletin::User, @controller.send(:vbulletin_login, :username => 'vb1', :password => 'password1')
-    assert_instance_of VBulletin::User, (user = @controller.send(:vbulletin_login, :email => 'vb1@example.com', :password => 'password1'))
-    assert_instance_of VBulletin::User, (user = @controller.send(:vbulletin_login, :username => 'wrongusername', :email => 'vb1@example.com', :password => 'password1'))
-    assert_instance_of VBulletin::User, (user = @controller.send(:vbulletin_login, :username => 'vb1', :email => 'wrongemail@example.com', :password => 'password1'))
+    assert_instance_of VBulletinRails::User, @controller.send(:vbulletin_login, :username => 'vb1', :password => 'password1')
+    assert_instance_of VBulletinRails::User, (user = @controller.send(:vbulletin_login, :email => 'vb1@example.com', :password => 'password1'))
+    assert_instance_of VBulletinRails::User, (user = @controller.send(:vbulletin_login, :username => 'wrongusername', :email => 'vb1@example.com', :password => 'password1'))
+    assert_instance_of VBulletinRails::User, (user = @controller.send(:vbulletin_login, :username => 'vb1', :email => 'wrongemail@example.com', :password => 'password1'))
     assert_equal @controller.session[:vbulletin_userid], @vbulletin.userid
     assert_equal @controller.send(:cookies)[:bb_lastactivity], user.lastactivity
     assert_equal @controller.send(:cookies)[:bb_lastvisit], user.lastvisit
     assert_match(/[0-9a-f]{32}/, @controller.send(:cookies)[:bb_sessionhash])
-    assert_instance_of VBulletin::User, (user = @controller.send(:vbulletin_login, :username => 'vb1', :email => 'wrongemail@example.com', :password => 'password1', :permanent => true))
+    assert_instance_of VBulletinRails::User, (user = @controller.send(:vbulletin_login, :username => 'vb1', :email => 'wrongemail@example.com', :password => 'password1', :permanent => true))
     assert_equal @controller.send(:cookies)[:bb_userid], user.userid
     assert_equal @controller.send(:cookies)[:bb_password], user.bb_password
     assert @controller.session[:vbulletin_permanent]

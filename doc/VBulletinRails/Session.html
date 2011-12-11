@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>Class: VBulletin::Session</title>
+<title>Class: VBulletinRails::Session</title>
 
 <link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
 
@@ -47,7 +47,7 @@
     <nav id="file-list-section" class="section">
   <h3 class="section-header">Defined In</h3>
   <ul>
-    <li>lib/vbulletin/models/session.rb
+    <li>lib/vbulletin_rails/models/session.rb
   </ul>
 </nav>
 
@@ -59,7 +59,7 @@
     <nav id="parent-class-section" class="section">
   <h3 class="section-header">Parent</h3>
   
-  <p class="link"><a href="Base.html">VBulletin::Base</a>
+  <p class="link"><a href="Base.html">VBulletinRails::Base</a>
   
 </nav>
 
@@ -101,13 +101,13 @@
 
   <ul class="link-list">
   
-    <li><a href="../VBulletin.html">VBulletin</a>
+    <li><a href="../VBulletinRails.html">VBulletinRails</a>
   
-    <li><a href="../VBulletin/Base.html">VBulletin::Base</a>
+    <li><a href="../VBulletinRails/Base.html">VBulletinRails::Base</a>
   
-    <li><a href="../VBulletin/Session.html">VBulletin::Session</a>
+    <li><a href="../VBulletinRails/Session.html">VBulletinRails::Session</a>
   
-    <li><a href="../VBulletin/User.html">VBulletin::User</a>
+    <li><a href="../VBulletinRails/User.html">VBulletinRails::User</a>
   
     <li><a href="../Rails/Application/Configuration.html">Rails::Application::Configuration</a>
   
@@ -122,12 +122,11 @@
 </nav>
 
 <div id="documentation">
-  <h1 class="class">class VBulletin::Session</h1>
+  <h1 class="class">class VBulletinRails::Session</h1>
 
   <div id="description" class="description">
     
-<p>Automatic class for handling <a href="../VBulletin.html">VBulletin</a>
-users sessions.</p>
+<p>Automatic class for handling VBulletin users sessions.</p>
 
   </div><!-- description -->
 
@@ -147,8 +146,8 @@ users sessions.</p>
       
         <dt id="VB_SESSION_TIMEOUT">VB_SESSION_TIMEOUT
         
-        <dd class="description"><p>Timeout used to set <code>last_visit</code> in database. Taken from <a
-href="../VBulletin.html">VBulletin</a>. Do not touch.</p>
+        <dd class="description"><p>Timeout used to set <code>last_visit</code> in database. Taken from
+VBulletin. Do not touch.</p>
         
       
       </dl>
@@ -179,7 +178,7 @@ href="../VBulletin.html">VBulletin</a>. Do not touch.</p>
 
           
           <div class="method-source-code" id="destroy-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin/models/session.rb, line 72</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/session.rb, line 72</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">destroy</span> <span class="ruby-identifier">sessionhash</span>
   <span class="ruby-identifier">session</span> = <span class="ruby-identifier">find_by_sessionhash</span>(<span class="ruby-identifier">sessionhash</span>)
   <span class="ruby-identifier">session</span>.<span class="ruby-identifier">destroy</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">session</span>
@@ -205,20 +204,20 @@ href="../VBulletin.html">VBulletin</a>. Do not touch.</p>
 
         <div class="method-description">
           
-          <p>Returns <a href="Session.html">VBulletin::Session</a> object, needs session
-hash and request</p>
+          <p>Returns <a href="Session.html">VBulletinRails::Session</a> object, needs
+session hash and request</p>
 
-<pre class="ruby"><span class="ruby-constant">VBulletin</span><span class="ruby-operator">::</span><span class="ruby-constant">Session</span>.<span class="ruby-identifier">get</span> :<span class="ruby-identifier">request</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">request</span>, :<span class="ruby-identifier">sessionhash</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'f588c74c9d6e1c7ad05abf6bcae2186f'</span>
+<pre class="ruby"><span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">Session</span>.<span class="ruby-identifier">get</span> :<span class="ruby-identifier">request</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">request</span>, :<span class="ruby-identifier">sessionhash</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'f588c74c9d6e1c7ad05abf6bcae2186f'</span>
 </pre>
           
 
           
           <div class="method-source-code" id="get-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin/models/session.rb, line 59</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/session.rb, line 59</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">get</span> <span class="ruby-identifier">options</span> = {}
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">symbolize_keys</span>
   <span class="ruby-identifier">request</span> = <span class="ruby-identifier">check_request</span> <span class="ruby-identifier">options</span>
-  <span class="ruby-identifier">idhash</span> = <span class="ruby-constant">VBulletin</span><span class="ruby-operator">::</span><span class="ruby-identifier">idhash</span>(<span class="ruby-constant">VBulletin</span><span class="ruby-operator">::</span><span class="ruby-identifier">fetch_alt_ip</span>(<span class="ruby-identifier">request</span>.<span class="ruby-identifier">headers</span>), <span class="ruby-identifier">request</span>.<span class="ruby-identifier">user_agent</span>)
+  <span class="ruby-identifier">idhash</span> = <span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-identifier">idhash</span>(<span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-identifier">fetch_alt_ip</span>(<span class="ruby-identifier">request</span>.<span class="ruby-identifier">headers</span>), <span class="ruby-identifier">request</span>.<span class="ruby-identifier">user_agent</span>)
   <span class="ruby-identifier">session</span> = <span class="ruby-identifier">find_by_sessionhash</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:sessionhash</span>].<span class="ruby-identifier">to_s</span>)
 
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">session</span>
@@ -247,19 +246,19 @@ hash and request</p>
 
         <div class="method-description">
           
-          <p>Sets user session for <a href="../VBulletin.html">VBulletin</a>. Needs <a
-href="User.html">VBulletin::User</a> object, or email or username.
+          <p>Sets user session for VBulletin. Needs <a
+href="User.html">VBulletinRails::User</a> object, or email or username.
 Controller <code>request</code> is mandatory!</p>
 
-<pre class="ruby"><span class="ruby-constant">VBulletin</span><span class="ruby-operator">::</span><span class="ruby-constant">Session</span>.<span class="ruby-identifier">set</span> :<span class="ruby-identifier">request</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">request</span>, :<span class="ruby-identifier">user</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">vb_user</span>
-<span class="ruby-constant">VBulletin</span><span class="ruby-operator">::</span><span class="ruby-constant">Session</span>.<span class="ruby-identifier">set</span> :<span class="ruby-identifier">request</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">request</span>, :<span class="ruby-identifier">email</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'user@example.com'</span>
-<span class="ruby-constant">VBulletin</span><span class="ruby-operator">::</span><span class="ruby-constant">Session</span>.<span class="ruby-identifier">set</span> :<span class="ruby-identifier">request</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">request</span>, :<span class="ruby-identifier">username</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'username'</span>
+<pre class="ruby"><span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">Session</span>.<span class="ruby-identifier">set</span> :<span class="ruby-identifier">request</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">request</span>, :<span class="ruby-identifier">user</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">vb_user</span>
+<span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">Session</span>.<span class="ruby-identifier">set</span> :<span class="ruby-identifier">request</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">request</span>, :<span class="ruby-identifier">email</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'user@example.com'</span>
+<span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">Session</span>.<span class="ruby-identifier">set</span> :<span class="ruby-identifier">request</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">request</span>, :<span class="ruby-identifier">username</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'username'</span>
 </pre>
           
 
           
           <div class="method-source-code" id="set-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin/models/session.rb, line 33</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/session.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">set</span> <span class="ruby-identifier">options</span> = {}
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">symbolize_keys</span>
   <span class="ruby-identifier">request</span> = <span class="ruby-identifier">check_request</span> <span class="ruby-identifier">options</span>
@@ -268,16 +267,16 @@ Controller <code>request</code> is mandatory!</p>
   <span class="ruby-identifier">user</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:user</span>]
   <span class="ruby-identifier">user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_email</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:email</span>]) <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:email</span>] <span class="ruby-keyword">and</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">blank?</span>
   <span class="ruby-identifier">user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_username</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:username</span>]) <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:username</span>] <span class="ruby-keyword">and</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">blank?</span>
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">VBulletinException</span>, <span class="ruby-string">'User not found'</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">User</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">VBulletinRailsException</span>, <span class="ruby-string">'User not found'</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">User</span>)
 
   <span class="ruby-identifier">nowstamp</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">to_i</span>
-  <span class="ruby-identifier">alt_ip</span> = <span class="ruby-constant">VBulletin</span><span class="ruby-operator">::</span><span class="ruby-identifier">fetch_alt_ip</span>(<span class="ruby-identifier">request</span>.<span class="ruby-identifier">headers</span>)
+  <span class="ruby-identifier">alt_ip</span> = <span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-identifier">fetch_alt_ip</span>(<span class="ruby-identifier">request</span>.<span class="ruby-identifier">headers</span>)
   <span class="ruby-identifier">sessionhash</span> = <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">MD5</span>.<span class="ruby-identifier">hexdigest</span>((<span class="ruby-identifier">rand</span> * <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">to_i</span> * <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">usec</span>).<span class="ruby-identifier">to_s</span>)
 
   <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">execute</span>(<span class="ruby-node">&quot;INSERT INTO `#{table_name}`
                       (`sessionhash`, `userid`, `host`, `idhash`, `lastactivity`, `location`, `useragent`)
                       VALUES
-                      ('#{sessionhash}', '#{user.userid}', '#{alt_ip}', '#{VBulletin::idhash(alt_ip, request.user_agent)}',
+                      ('#{sessionhash}', '#{user.userid}', '#{alt_ip}', '#{VBulletinRails::idhash(alt_ip, request.user_agent)}',
                       '#{nowstamp}', 'application', '#{request.user_agent}')&quot;</span>)
 
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">find_by_sessionhash</span>(<span class="ruby-identifier">sessionhash</span>)
@@ -309,14 +308,13 @@ Controller <code>request</code> is mandatory!</p>
 
         <div class="method-description">
           
-          <p>Updates <a href="../VBulletin.html">VBulletin</a> session timestamp on the
-application side, to make them consistent with <a
-href="../VBulletin.html">VBulletin</a> on the forum side.</p>
+          <p>Updates VBulletin session timestamp on the application side, to make them
+consistent with VBulletin on the forum side.</p>
           
 
           
           <div class="method-source-code" id="update_timestamps-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin/models/session.rb, line 15</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/session.rb, line 15</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update_timestamps</span>
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">blank?</span>
     <span class="ruby-identifier">last_activity</span> = <span class="ruby-identifier">user</span>.<span class="ruby-identifier">lastactivity</span>

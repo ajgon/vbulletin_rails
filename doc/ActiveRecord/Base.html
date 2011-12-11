@@ -47,7 +47,7 @@
     <nav id="file-list-section" class="section">
   <h3 class="section-header">Defined In</h3>
   <ul>
-    <li>lib/vbulletin/core_ext.rb
+    <li>lib/vbulletin_rails/core_ext.rb
   </ul>
 </nav>
 
@@ -99,13 +99,13 @@
 
   <ul class="link-list">
   
-    <li><a href="../VBulletin.html">VBulletin</a>
+    <li><a href="../VBulletinRails.html">VBulletinRails</a>
   
-    <li><a href="../VBulletin/Base.html">VBulletin::Base</a>
+    <li><a href="../VBulletinRails/Base.html">VBulletinRails::Base</a>
   
-    <li><a href="../VBulletin/Session.html">VBulletin::Session</a>
+    <li><a href="../VBulletinRails/Session.html">VBulletinRails::Session</a>
   
-    <li><a href="../VBulletin/User.html">VBulletin::User</a>
+    <li><a href="../VBulletinRails/User.html">VBulletinRails::User</a>
   
     <li><a href="../Rails/Application/Configuration.html">Rails::Application::Configuration</a>
   
@@ -166,19 +166,18 @@
 
 <p>With this method included, two hooks on User are added:</p>
 <ul><li>
-<p>When user is created - additional <a href="../VBulletin.html">VBulletin</a>
-account corresponding to user email and password is created, see: <a
+<p>When user is created - additional VBulletin account corresponding to user
+email and password is created, see: <a
 href="Base.html#method-i-add_vbulletin">#add_vbulletin</a></p>
 </li><li>
-<p>When user is updated - corresponding <a
-href="../VBulletin.html">VBulletin</a> password is updated, see: <a
+<p>When user is updated - corresponding VBulletin password is updated, see: <a
 href="Base.html#method-i-update_vbulletin">#update_vbulletin</a></p>
 </li></ul>
           
 
           
           <div class="method-source-code" id="include_vbulletin-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin/core_ext.rb, line 15</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/core_ext.rb, line 15</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">include_vbulletin</span>
   <span class="ruby-identifier">after_create</span> <span class="ruby-value">:add_vbulletin</span>
   <span class="ruby-identifier">after_update</span> <span class="ruby-value">:update_vbulletin</span>
@@ -210,16 +209,16 @@ href="Base.html#method-i-update_vbulletin">#update_vbulletin</a></p>
 
         <div class="method-description">
           
-          <p>Filter launched <code>after_create</code>, it registers given user in <a
-href="../VBulletin.html">VBulletin</a> forum</p>
+          <p>Filter launched <code>after_create</code>, it registers given user in
+VBulletin forum</p>
           
 
           
           <div class="method-source-code" id="add_vbulletin-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin/core_ext.rb, line 22</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/core_ext.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">add_vbulletin</span>
   <span class="ruby-comment">#TODO make it parametable</span>
-  <span class="ruby-constant">VBulletin</span><span class="ruby-operator">::</span><span class="ruby-constant">User</span>.<span class="ruby-identifier">register</span>(<span class="ruby-value">:email</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">email</span>, <span class="ruby-value">:password</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">password</span>, <span class="ruby-value">:username</span> =<span class="ruby-operator">&gt;</span> (<span class="ruby-keyword">self</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:username</span>) <span class="ruby-operator">?</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">username</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>))
+  <span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">User</span>.<span class="ruby-identifier">register</span>(<span class="ruby-value">:email</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">email</span>, <span class="ruby-value">:password</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">password</span>, <span class="ruby-value">:username</span> =<span class="ruby-operator">&gt;</span> (<span class="ruby-keyword">self</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:username</span>) <span class="ruby-operator">?</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">username</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>))
 <span class="ruby-keyword">end</span></pre>
           </div><!-- add_vbulletin-source -->
           
@@ -242,15 +241,14 @@ href="../VBulletin.html">VBulletin</a> forum</p>
 
         <div class="method-description">
           
-          <p>Filter launched <code>after_update</code>, updates <a
-href="../VBulletin.html">VBulletin</a> user password</p>
+          <p>Filter launched <code>after_update</code>, updates VBulletin user password</p>
           
 
           
           <div class="method-source-code" id="update_vbulletin-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin/core_ext.rb, line 28</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/core_ext.rb, line 28</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update_vbulletin</span>
-  <span class="ruby-identifier">vb_user</span> = <span class="ruby-constant">VBulletin</span><span class="ruby-operator">::</span><span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_email</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">email</span>)
+  <span class="ruby-identifier">vb_user</span> = <span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_email</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">email</span>)
   <span class="ruby-identifier">vb_user</span>.<span class="ruby-identifier">password</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">password</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- update_vbulletin-source -->

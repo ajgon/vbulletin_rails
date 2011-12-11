@@ -1,4 +1,4 @@
-module VBulletin
+module VBulletinRails
 
   # Sets connection to VBulletin database. If <tt>vbulletin_<environemt></tt> specified in <tt>database.yml</tt> file, it connets to that database instead of normal database.
   #
