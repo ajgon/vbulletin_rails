@@ -40,13 +40,25 @@ Cookie salt is located in includes/functions.php in line 34 of your VBulletin pa
 
 **Gem assumes, that you have User model which password and email or username fields. This will be removed in future version.**
 
-First of all add `include_vbulletin` to your User model:
+First of all add [include_vbulletin](http://rubydoc.info/github/ajgon/vbulletin_rails/master/ActiveRecord/Base.include_vbulletin) to your User model:
+
 ```ruby
 class User < ActiveRecord::Base
   include_vbulletin
 end
 ```
+
 this will ensure, that vbulletin account will be created after registration, and VBulletin password will be changed simultaneously with User password.
+
+If your User model uses other column names for email, password and username (which are default), then you have to inform gem about that, using
+[set_column_names_for_vbulletin](http://rubydoc.info/github/ajgon/vbulletin_rails/master/ActiveRecord/Base.set_column_names_for_vbulletin) method. For example
+if you store emails in column `user_email` and passwords in `user_pass`, you need to add:
+
+```ruby
+class User < ActiveRecord::Base
+  set_column_names_for_vbulletin :email => :user_email, :password => :user_pass
+end
+```
 
 User logging from VBulletin is handled out of box (which means, when user logs in into your VBulletin forum he will also log in into application).
 If you want to avoid this, use `skip_before_filter :act_as_vbulletin`.

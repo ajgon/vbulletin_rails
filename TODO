@@ -1,3 +1,1 @@
 - fix update_vbulletin hook, to work also with email and username update
-- make User.email, User.username and User.password as parameters chosen by user
-- fix SchemaDumper hardcoded table names
