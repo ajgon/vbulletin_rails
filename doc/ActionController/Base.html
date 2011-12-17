@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>Class: ActionController::Base</title>
+<title>class ActionController::Base - RDoc Documentation</title>
 
 <link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
 
@@ -179,7 +179,7 @@ skip_before_filter in desired controller or globally.</p>
 
           
           <div class="method-source-code" id="act_as_vbulletin-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails/core_ext.rb, line 87</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/core_ext.rb, line 144</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">act_as_vbulletin</span>
   <span class="ruby-keyword">if</span> (<span class="ruby-identifier">cookies</span>[<span class="ruby-value">:bb_sessionhash</span>] <span class="ruby-keyword">and</span> (<span class="ruby-identifier">vb_session</span> = <span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">Session</span>.<span class="ruby-identifier">find_by_sessionhash</span>(<span class="ruby-identifier">cookies</span>[<span class="ruby-value">:bb_sessionhash</span>])) <span class="ruby-keyword">and</span> <span class="ruby-identifier">vb_session</span>.<span class="ruby-identifier">userid</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>) <span class="ruby-keyword">or</span>
     (<span class="ruby-identifier">cookies</span>[<span class="ruby-value">:bb_userid</span>].<span class="ruby-identifier">to_i</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-keyword">and</span> (<span class="ruby-identifier">vb_user</span> = <span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_userid</span>(<span class="ruby-identifier">cookies</span>[<span class="ruby-value">:bb_userid</span>])) <span class="ruby-keyword">and</span> <span class="ruby-identifier">vb_user</span>.<span class="ruby-identifier">authenticate_bb_password</span>(<span class="ruby-identifier">cookies</span>[<span class="ruby-value">:bb_password</span>]))
@@ -224,7 +224,7 @@ object of currently logged in user. Analogic to standard, convenctional
 
           
           <div class="method-source-code" id="current_vbulletin_user-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails/core_ext.rb, line 123</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/core_ext.rb, line 180</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">current_vbulletin_user</span>
   <span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_userid</span>(<span class="ruby-identifier">session</span>[<span class="ruby-value">:vbulletin_userid</span>])
 <span class="ruby-keyword">end</span></pre>
@@ -270,7 +270,7 @@ vbulletin options</p>
 
           
           <div class="method-source-code" id="set_permanent_vbulletin_session_for-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails/core_ext.rb, line 116</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/core_ext.rb, line 173</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_permanent_vbulletin_session_for</span> <span class="ruby-identifier">vb_user</span>
   <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">permanent</span>[<span class="ruby-value">:bb_userid</span>] = <span class="ruby-identifier">vb_user</span>.<span class="ruby-identifier">userid</span>
   <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">permanent</span>[<span class="ruby-value">:bb_password</span>] = <span class="ruby-identifier">vb_user</span>.<span class="ruby-identifier">bb_password</span>
@@ -309,7 +309,7 @@ application if needed.</p>
 
           
           <div class="method-source-code" id="vbulletin_login-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails/core_ext.rb, line 49</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/core_ext.rb, line 106</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">vbulletin_login</span> <span class="ruby-identifier">options</span> = {}
   <span class="ruby-identifier">vb_user</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-identifier">vb_user</span> = <span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">User</span>.<span class="ruby-identifier">find_by_email</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:email</span>]) <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:email</span>]
@@ -352,7 +352,7 @@ application if needed.</p>
 
           
           <div class="method-source-code" id="vbulletin_logout-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails/core_ext.rb, line 67</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/core_ext.rb, line 124</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">vbulletin_logout</span>
   <span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">Session</span>.<span class="ruby-identifier">destroy</span>(<span class="ruby-identifier">cookies</span>[<span class="ruby-value">:bb_sessionhash</span>])
   <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:bb_lastactivity</span>)
@@ -382,7 +382,7 @@ application if needed.</p>
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.11.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 

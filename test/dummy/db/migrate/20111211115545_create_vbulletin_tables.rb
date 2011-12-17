@@ -1,6 +1,7 @@
 class CreateVbulletinTables < ActiveRecord::Migration #:nodoc:
   def self.up
-    create_table "session", :primary_key => "sessionhash", :force => true do |t|
+    vb_prefix = ActiveRecord::Base.get_vbulletin_prefix
+    create_table "#{vb_prefix}session", :primary_key => "sessionhash", :force => true do |t|
       t.integer "userid",                        :default => 0,  :null => false
       t.string  "host",           :limit => 15,  :default => "", :null => false
       t.string  "idhash",         :limit => 32,  :default => "", :null => false
@@ -21,12 +22,12 @@ class CreateVbulletinTables < ActiveRecord::Migration #:nodoc:
       t.integer "isbot",          :limit => 1,   :default => 0,  :null => false
     end
   
-    add_index "session", ["apiaccesstoken"], :name => "apiaccesstoken"
-    add_index "session", ["idhash", "host", "userid"], :name => "guest_lookup"
-    add_index "session", ["lastactivity"], :name => "last_activity"
-    add_index "session", ["userid", "lastactivity"], :name => "user_activity"
+    add_index "#{vb_prefix}session", ["apiaccesstoken"], :name => "apiaccesstoken"
+    add_index "#{vb_prefix}session", ["idhash", "host", "userid"], :name => "guest_lookup"
+    add_index "#{vb_prefix}session", ["lastactivity"], :name => "last_activity"
+    add_index "#{vb_prefix}session", ["userid", "lastactivity"], :name => "user_activity"
   
-    create_table "user", :primary_key => "userid", :force => true do |t|
+    create_table "#{vb_prefix}user", :primary_key => "userid", :force => true do |t|
       t.integer "usergroupid",         :limit => 2,   :default => 0,        :null => false
       t.string  "membergroupids",      :limit => 250, :default => "",       :null => false
       t.integer "displaygroupid",      :limit => 2,   :default => 0,        :null => false
@@ -99,15 +100,15 @@ class CreateVbulletinTables < ActiveRecord::Migration #:nodoc:
       t.string  "fbaccesstoken",                      :default => "",       :null => false
     end
   
-    add_index "user", ["birthday", "showbirthday"], :name => "birthday"
-    add_index "user", ["birthday_search"], :name => "birthday_search"
-    add_index "user", ["email"], :name => "email"
-    add_index "user", ["fbuserid"], :name => "fbuserid"
-    add_index "user", ["referrerid"], :name => "referrerid"
-    add_index "user", ["usergroupid"], :name => "usergroupid"
-    add_index "user", ["username"], :name => "username"
+    add_index "#{vb_prefix}user", ["birthday", "showbirthday"], :name => "birthday"
+    add_index "#{vb_prefix}user", ["birthday_search"], :name => "birthday_search"
+    add_index "#{vb_prefix}user", ["email"], :name => "email"
+    add_index "#{vb_prefix}user", ["fbuserid"], :name => "fbuserid"
+    add_index "#{vb_prefix}user", ["referrerid"], :name => "referrerid"
+    add_index "#{vb_prefix}user", ["usergroupid"], :name => "usergroupid"
+    add_index "#{vb_prefix}user", ["username"], :name => "username"
   
-    create_table "userfield", :primary_key => "userid", :force => true do |t|
+    create_table "#{vb_prefix}userfield", :primary_key => "userid", :force => true do |t|
       t.text "temp",   :limit => 16777215
       t.text "field1", :limit => 16777215
       t.text "field2", :limit => 16777215
@@ -115,7 +116,7 @@ class CreateVbulletinTables < ActiveRecord::Migration #:nodoc:
       t.text "field4", :limit => 16777215
     end
   
-    create_table "usertextfield", :primary_key => "userid", :force => true do |t|
+    create_table "#{vb_prefix}usertextfield", :primary_key => "userid", :force => true do |t|
       t.text "subfolders",  :limit => 16777215
       t.text "pmfolders",   :limit => 16777215
       t.text "buddylist",   :limit => 16777215
@@ -127,10 +128,11 @@ class CreateVbulletinTables < ActiveRecord::Migration #:nodoc:
   end
   
   def self.down
-    drop_table "session"
-    drop_table "user"
-    drop_table "userfield"
-    drop_table "usertextfield"
+    vb_prefix = ActiveRecord::Base.get_vbulletin_prefix
+    drop_table "#{vb_prefix}session"
+    drop_table "#{vb_prefix}user"
+    drop_table "#{vb_prefix}userfield"
+    drop_table "#{vb_prefix}usertextfield"
   end
   
 end

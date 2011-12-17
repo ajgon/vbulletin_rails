@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(:version => 20111211115545) do
 
-  create_table "session", :primary_key => "sessionhash", :force => true do |t|
+  create_table "vb_session", :primary_key => "sessionhash", :force => true do |t|
     t.integer "userid",                        :default => 0,  :null => false
     t.string  "host",           :limit => 15,  :default => "", :null => false
     t.string  "idhash",         :limit => 32,  :default => "", :null => false
@@ -34,12 +34,12 @@ ActiveRecord::Schema.define(:version => 20111211115545) do
     t.integer "isbot",          :limit => 1,   :default => 0,  :null => false
   end
 
-  add_index "session", ["apiaccesstoken"], :name => "apiaccesstoken"
-  add_index "session", ["idhash", "host", "userid"], :name => "guest_lookup"
-  add_index "session", ["lastactivity"], :name => "last_activity"
-  add_index "session", ["userid", "lastactivity"], :name => "user_activity"
+  add_index "vb_session", ["apiaccesstoken"], :name => "apiaccesstoken"
+  add_index "vb_session", ["idhash", "host", "userid"], :name => "guest_lookup"
+  add_index "vb_session", ["lastactivity"], :name => "last_activity"
+  add_index "vb_session", ["userid", "lastactivity"], :name => "user_activity"
 
-  create_table "user", :primary_key => "userid", :force => true do |t|
+  create_table "vb_user", :primary_key => "userid", :force => true do |t|
     t.integer "usergroupid",         :limit => 2,   :default => 0,        :null => false
     t.string  "membergroupids",      :limit => 250, :default => "",       :null => false
     t.integer "displaygroupid",      :limit => 2,   :default => 0,        :null => false
@@ -112,15 +112,15 @@ ActiveRecord::Schema.define(:version => 20111211115545) do
     t.string  "fbaccesstoken",                      :default => "",       :null => false
   end
 
-  add_index "user", ["birthday", "showbirthday"], :name => "birthday"
-  add_index "user", ["birthday_search"], :name => "birthday_search"
-  add_index "user", ["email"], :name => "email"
-  add_index "user", ["fbuserid"], :name => "fbuserid"
-  add_index "user", ["referrerid"], :name => "referrerid"
-  add_index "user", ["usergroupid"], :name => "usergroupid"
-  add_index "user", ["username"], :name => "username"
+  add_index "vb_user", ["birthday", "showbirthday"], :name => "birthday"
+  add_index "vb_user", ["birthday_search"], :name => "birthday_search"
+  add_index "vb_user", ["email"], :name => "email"
+  add_index "vb_user", ["fbuserid"], :name => "fbuserid"
+  add_index "vb_user", ["referrerid"], :name => "referrerid"
+  add_index "vb_user", ["usergroupid"], :name => "usergroupid"
+  add_index "vb_user", ["username"], :name => "username"
 
-  create_table "userfield", :primary_key => "userid", :force => true do |t|
+  create_table "vb_userfield", :primary_key => "userid", :force => true do |t|
     t.text "temp",   :limit => 2147483647
     t.text "field1", :limit => 2147483647
     t.text "field2", :limit => 2147483647
@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(:version => 20111211115545) do
     t.text "field4", :limit => 2147483647
   end
 
-  create_table "usertextfield", :primary_key => "userid", :force => true do |t|
+  create_table "vb_usertextfield", :primary_key => "userid", :force => true do |t|
     t.text "subfolders",  :limit => 2147483647
     t.text "pmfolders",   :limit => 2147483647
     t.text "buddylist",   :limit => 2147483647
