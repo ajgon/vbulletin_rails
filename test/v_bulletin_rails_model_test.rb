@@ -1,7 +1,6 @@
 require 'test_helper'
 require 'active_record'
 require 'active_resource/http_mock'
-require 'vbulletin_rails/models/base'
 require 'vbulletin_rails/models/user'
 require 'vbulletin_rails/models/userfield'
 require 'vbulletin_rails/models/usertextfield'
@@ -41,7 +40,7 @@ class VBulletinRailsModelTest < ActiveSupport::TestCase #:nodoc:
   test "it should create vbulletin object" do
     #should pass
     assert_instance_of VBulletinRails::User, @vbulletin
-    assert_equal nil, @vbulletin.birthday_search
+    assert_equal Date.parse('1800-01-01'), @vbulletin.birthday_search
     assert @vbulletin.userid.to_i > 0
   end
   
@@ -116,7 +115,8 @@ class VBulletinRailsModelTest < ActiveSupport::TestCase #:nodoc:
     
     vb_session = VBulletinRails::Session.set(:request => request, :user => @vbulletin)
     vb_session_user_before_update = vb_session.user.dup
-    assert_equal [vb_session.user.reload.lastactivity, vb_session_user_before_update.lastvisit], vb_session.update_timestamps
+    vb_session_after_update = vb_session.update_timestamps
+    assert_equal [vb_session.user.reload.lastactivity, vb_session_user_before_update.lastvisit], vb_session_after_update
     assert_equal vb_session.lastactivity, vb_session.user.lastactivity
     assert_equal vb_session_user_before_update.lastvisit, vb_session.user.lastvisit
     vb_session.user.update_attributes(:lastactivity => Time.now - VBulletinRails::Session::VB_SESSION_TIMEOUT - 10)

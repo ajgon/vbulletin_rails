@@ -1,10 +1,13 @@
 module VBulletinRails
 
   # Model containing VBulletin User information
-  class User < VBulletinRails::Base
+  class User < ActiveRecord::Base
 
-    set_primary_key(:userid)
-    set_table_name(PREFIX + 'user')
+    PREFIX = get_vbulletin_prefix
+    establish_vbulletin_connection    
+
+    self.primary_key = :userid
+    self.table_name = PREFIX + 'user'
 
     validates_presence_of :email, :password
     validates_uniqueness_of :email
@@ -14,31 +17,24 @@ module VBulletinRails
     has_one :usertextfield, :foreign_key => :userid, :dependent => :delete
     has_many :session, :foreign_key => :userid, :dependent => :delete_all
     
-    # Constructor - sets all unnecessary parameters as default for newly registered VBulletin user.
-    def initialize options
-      options = options.symbolize_keys
+    after_initialize :defaults
+    
+    # Sets all unnecessary parameters as default for newly registered VBulletin user.
+    def defaults
       nowstamp = Time.now.to_i
-      login = options[:username].blank? ? options[:email] : options[:username]
-      
-      super({
-        :usergroupid => 2,
-        :username => login.to_s,
-        :password => options[:password],
-        :email => options[:email].to_s,
-        :usertitle => 'Junior Member',
-        :joindate => nowstamp,
-        :daysprune => -1,
-        :lastvisit => nowstamp,
-        :lastactivity => nowstamp,
-        :reputationlevelid => 5,
-        :timezoneoffset => '0',
-        :options => 45108311,
-        :birthday_search => '1970-01-01',
-        :startofweek => -1,
-        :languageid => 1
-      }.merge(options))
-      
-      self.username = login
+      self.usergroupid ||= 2
+      self.username ||= (self.username.blank? ? self.email : self.username)
+      self.usertitle ||= 'Junior Member'
+      self.joindate ||= nowstamp
+      self.daysprune ||= -1
+      self.lastvisit ||= nowstamp
+      self.lastactivity ||= nowstamp
+      self.reputationlevelid ||= 5
+      self.timezoneoffset ||= '0'
+      self.options ||= 45108311
+      self.birthday_search ||= '1800-01-01'
+      self.startofweek ||= -1
+      self.languageid ||= 1
       self.userfield = Userfield.new
       self.usertextfield = Usertextfield.new
     end

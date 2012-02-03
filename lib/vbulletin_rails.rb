@@ -1,7 +1,6 @@
 $LOAD_PATH << File.dirname(__FILE__) unless $LOAD_PATH.include?(File.dirname(__FILE__))
 
 require 'vbulletin_rails/core_ext'
-require 'vbulletin_rails/models/base'
 require 'vbulletin_rails/models/user'
 require 'vbulletin_rails/models/userfield'
 require 'vbulletin_rails/models/usertextfield'
