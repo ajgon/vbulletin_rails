@@ -1,13 +1,16 @@
 module VBulletinRails
 
   # Automatic class for handling VBulletin users sessions.
-  class Session < VBulletinRails::Base
+  class Session < ActiveRecord::Base
+
+    PREFIX = get_vbulletin_prefix
+    establish_vbulletin_connection    
 
     # Timeout used to set <tt>last_visit</tt> in database. Taken from VBulletin. Do not touch.
     VB_SESSION_TIMEOUT = 900
 
-    set_table_name(PREFIX + 'session')
-    set_primary_key(:sessionhash)
+    self.table_name = (PREFIX + 'session')
+    self.primary_key = (:sessionhash)
 
     belongs_to :user, :foreign_key => :userid
 
