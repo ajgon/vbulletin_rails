@@ -45,21 +45,26 @@ module ActiveRecord
     
     # Filter launched <tt>before_validation</tt>, won't allow using it model to validate unless VBulletin validates properly
     def validate_vbulletin
-      vb_user = VBulletinRails::User.new(register_parameters_from_user_model)
+      vb_user = VBulletinRails::User.find_by_email(register_parameter_from_user_model(:email))
+      vb_user = VBulletinRails::User.new(register_parameters_from_user_model) unless vb_user
       unless vb_user.valid?
         vb_user.errors.each do |error, message|
           self.errors.add('vbulletin_' + error.to_s, message)
         end
-        return false
       end
     end
     
     # Returns hash of parameters ready to pass to VBulletinRails::User constructor
     def register_parameters_from_user_model
       register_parameters = [:email, :password, :username].collect do |vbulletin_column_name|
-        [vbulletin_column_name, (self.respond_to?(@@vbulletin_column_names[vbulletin_column_name]) ? self.send(@@vbulletin_column_names[vbulletin_column_name]) : nil)]
+        [vbulletin_column_name, register_parameter_from_user_model(vbulletin_column_name)]
       end
       Hash[*register_parameters.flatten]
+    end
+
+    # Returns VBulletin friendly parameter value
+    def register_parameter_from_user_model(vbulletin_column_name)
+      ((defined?(@@vbulletin_column_names) && self.respond_to?(@@vbulletin_column_names[vbulletin_column_name])) ? self.send(@@vbulletin_column_names[vbulletin_column_name]) : self.send(vbulletin_column_name))
     end
         
     # Get database configuration options
