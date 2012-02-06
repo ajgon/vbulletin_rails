@@ -85,4 +85,13 @@ module VBulletinRails
   def self.idhash alt_ip, user_agent
     Digest::MD5.hexdigest(user_agent + fetch_substr_ip(alt_ip))
   end
+  
+  # Cleans everything in VBulletin tables. Used to setup tests.
+  def self.clean_tables!
+    VBulletinRails::User.delete_all
+    VBulletinRails::Userfield.delete_all
+    VBulletinRails::Usertextfield.delete_all
+    VBulletinRails::Session.delete_all
+  end
+  
 end

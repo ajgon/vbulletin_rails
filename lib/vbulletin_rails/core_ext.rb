@@ -39,17 +39,19 @@ module ActiveRecord
 
     # Filter launched <tt>after_update</tt>, updates VBulletin user password
     def update_vbulletin
-      vb_user = VBulletinRails::User.find_by_email(self.email)
-      vb_user.password = self.password
+      vb_user = VBulletinRails::User.find_by_email(register_parameter_from_user_model(:email))
+      vb_user.update_attributes(:password => register_parameter_from_user_model(:password))
     end
     
     # Filter launched <tt>before_validation</tt>, won't allow using it model to validate unless VBulletin validates properly
     def validate_vbulletin
       vb_user = VBulletinRails::User.find_by_email(register_parameter_from_user_model(:email))
-      vb_user = VBulletinRails::User.new(register_parameters_from_user_model) unless vb_user
-      unless vb_user.valid?
-        vb_user.errors.each do |error, message|
-          self.errors.add('vbulletin_' + error.to_s, message)
+      unless vb_user
+        vb_user = VBulletinRails::User.new(register_parameters_from_user_model) 
+        unless vb_user.valid?
+          vb_user.errors.each do |error, message|
+            self.errors.add('vbulletin_' + error.to_s, message)
+          end
         end
       end
     end
@@ -82,7 +84,20 @@ module ActiveRecord
       database_configuration['vbulletin_' + base_env] ? 'vbulletin_' + base_env : base_env
     end
     
-    # Establish connection to VBulletin database if differs from the main one
+    # Sets connection to VBulletin database. If <tt>vbulletin_<environemt></tt> specified in <tt>database.yml</tt> file, it connets to that database instead of normal database.
+    #   # database.yml
+    #   # Sets VBulletin connetion to another database located in external.com, and assumes that all VBulletin tables have vb_ prefix.
+    #   development:
+    #     adapter: mysql2
+    #     username: user
+    #     password: pass
+    #     host: localhost
+    #   vbulletin_development:
+    #     adapter: mysql2
+    #     username: vb
+    #     password: vbpass
+    #     host: external.com
+    #     prefix: vb_
     def self.establish_vbulletin_connection
       establish_connection(database_configuration[db_env]) if db_env.match(/vbulletin_/)
     end
@@ -213,7 +228,23 @@ module Rails
   end
 end
 
+module ActiveSupport
+  class TestCase #:nodoc:
+    setup :clean_vbulletin_tables  
+    def clean_vbulletin_tables
+      VBulletinRails.clean_tables!
+    end
+  end
+end
 
+module ActionController
+  class TestCase #:nodoc:
+    setup :clean_vbulletin_tables  
+    def clean_vbulletin_tables
+      VBulletinRails.clean_tables!
+    end
+  end
+end
 
 module ActiveRecord
   class SchemaDumper #:nodoc:
