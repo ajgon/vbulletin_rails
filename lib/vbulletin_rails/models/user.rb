@@ -3,11 +3,18 @@ module VBulletinRails
   # Model containing VBulletin User information
   class User < ActiveRecord::Base
 
+    # VBulletin tables prefix in database. It must set same as <tt>$config['Database']['tableprefix']</tt> in your VBulletin forum
     PREFIX = get_vbulletin_prefix
     establish_vbulletin_connection    
 
-    self.primary_key = :userid
-    self.table_name = PREFIX + 'user'
+    if Rails.version >= '3.2'
+      self.primary_key = :userid
+      self.table_name = PREFIX + 'user'
+    else
+      set_primary_key(:userid)
+      set_table_name(PREFIX + 'user')
+    end
+
 
     validates_presence_of :email, :password
     validates_uniqueness_of :email
@@ -56,6 +63,7 @@ module VBulletinRails
     
     # Sets new VBulletinRails::User password
     def password= passwd
+      return unless passwd
       new_salt = User.fresh_salt
       self.passworddate = Date.today.to_s
       self.salt = new_salt
@@ -70,7 +78,7 @@ module VBulletinRails
       vb_user = self.new(options)
       if vb_user.save
         connection.execute("UPDATE `#{PREFIX}user` SET `birthday_search` = '0000-00-00' WHERE `#{PREFIX}user`.`userid` = '#{vb_user.userid}'")
-        return find(vb_user.userid)
+        return self.find(vb_user.userid)
       else
         return vb_user
       end

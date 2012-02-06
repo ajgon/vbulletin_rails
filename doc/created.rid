@@ -1,11 +1,10 @@
-Sat, 17 Dec 2011 02:43:44 +0100
-./LICENSE	Fri, 16 Dec 2011 23:50:30 +0100
-./lib/vbulletin_rails/core_ext.rb	Sat, 17 Dec 2011 02:34:03 +0100
-./lib/vbulletin_rails/models/session.rb	Fri, 16 Dec 2011 23:50:30 +0100
-./lib/vbulletin_rails/models/base.rb	Sat, 17 Dec 2011 02:25:46 +0100
-./lib/vbulletin_rails/models/usertextfield.rb	Fri, 16 Dec 2011 23:50:30 +0100
-./lib/vbulletin_rails/models/userfield.rb	Fri, 16 Dec 2011 23:50:30 +0100
-./lib/vbulletin_rails/models/user.rb	Sat, 17 Dec 2011 02:31:21 +0100
-./lib/vbulletin_rails/version.rb	Fri, 16 Dec 2011 23:50:30 +0100
-./lib/vbulletin_rails.rb	Fri, 16 Dec 2011 23:50:30 +0100
-./TODO	Sat, 17 Dec 2011 02:34:57 +0100
+Mon, 06 Feb 2012 14:11:39 +0100
+./lib/vbulletin_rails/core_ext.rb	Mon, 06 Feb 2012 14:11:27 +0100
+./lib/vbulletin_rails/models/session.rb	Mon, 06 Feb 2012 14:03:26 +0100
+./lib/vbulletin_rails/models/user.rb	Mon, 06 Feb 2012 14:00:12 +0100
+./lib/vbulletin_rails/models/userfield.rb	Mon, 06 Feb 2012 13:03:34 +0100
+./lib/vbulletin_rails/models/usertextfield.rb	Mon, 06 Feb 2012 13:03:40 +0100
+./lib/vbulletin_rails/version.rb	Fri, 03 Feb 2012 14:37:36 +0100
+./lib/vbulletin_rails.rb	Mon, 06 Feb 2012 11:11:49 +0100
+./LICENSE	Fri, 03 Feb 2012 14:37:36 +0100
+./TODO	Fri, 03 Feb 2012 14:37:36 +0100

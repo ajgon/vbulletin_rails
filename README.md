@@ -27,7 +27,7 @@ By default plugin assumes, that VBulletin database is the same as application, a
 * `vbulletin_<environment>` - with this section, you can provide database details if VBulletin database is located outside application database
 * `prefix` - VBulletin tables prefix - it has to be the same as in your VBulletin configuration
 
-See [database.yml example](http://rubydoc.info/github/ajgon/vbulletin_rails/master/VBulletinRails/Base), for more details.
+See [database.yml example](http://rubydoc.info/github/ajgon/vbulletin_rails/master/ActiveRecord/Base.establish_vbulletin_connection), for more details.
 
 You may also need a `COOKIE_SALT` VBulletin constant if you want to handle permanent sessions. If yes, set this environment variable:
 

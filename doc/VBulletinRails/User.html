@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>class VBulletinRails::User - RDoc Documentation</title>
+<title>Class: VBulletinRails::User</title>
 
 <link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
 
@@ -59,7 +59,7 @@
     <nav id="parent-class-section" class="section">
   <h3 class="section-header">Parent</h3>
   
-  <p class="link"><a href="Base.html">VBulletinRails::Base</a>
+  <p class="link"><a href="../ActiveRecord/Base.html">ActiveRecord::Base</a>
   
 </nav>
 
@@ -70,8 +70,6 @@
 
   <ul class="link-list">
     
-    <li><a href="#method-c-new">::new</a>
-    
     <li><a href="#method-c-register">::register</a>
     
     <li><a href="#method-i-authenticate">#authenticate</a>
@@ -79,6 +77,8 @@
     <li><a href="#method-i-authenticate_bb_password">#authenticate_bb_password</a>
     
     <li><a href="#method-i-bb_password">#bb_password</a>
+    
+    <li><a href="#method-i-defaults">#defaults</a>
     
     <li><a href="#method-i-password-3D">#password=</a>
     
@@ -105,15 +105,13 @@
 
   <ul class="link-list">
   
-    <li><a href="../VBulletinRails.html">VBulletinRails</a>
+    <li><a href="../Rails/Application/Configuration.html">Rails::Application::Configuration</a>
   
-    <li><a href="../VBulletinRails/Base.html">VBulletinRails::Base</a>
+    <li><a href="../VBulletinRails.html">VBulletinRails</a>
   
     <li><a href="../VBulletinRails/Session.html">VBulletinRails::Session</a>
   
     <li><a href="../VBulletinRails/User.html">VBulletinRails::User</a>
-  
-    <li><a href="../Rails/Application/Configuration.html">Rails::Application::Configuration</a>
   
     <li><a href="../ActionController/Base.html">ActionController::Base</a>
   
@@ -143,6 +141,20 @@
     
 
     
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="PREFIX">PREFIX
+        
+        <dd class="description"><p>VBulletin tables prefix in database. It must set same as
+<code>$config['Database']['tableprefix']</code> in your VBulletin forum</p>
+        
+      
+      </dl>
+    </section>
+    
 
     
 
@@ -150,61 +162,6 @@
     
      <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
       <h3 class="section-header">Public Class Methods</h3>
-
-    
-      <div id="method-c-new" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">new</span><span
-            class="method-args">(options)</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          <p>Constructor - sets all unnecessary parameters as default for newly
-registered VBulletin user.</p>
-          
-
-          
-          <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 18</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span> <span class="ruby-identifier">options</span>
-  <span class="ruby-identifier">options</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">symbolize_keys</span>
-  <span class="ruby-identifier">nowstamp</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">to_i</span>
-  <span class="ruby-identifier">login</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:username</span>].<span class="ruby-identifier">blank?</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:email</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:username</span>]
-  
-  <span class="ruby-keyword">super</span>({
-    <span class="ruby-value">:usergroupid</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span>,
-    <span class="ruby-value">:username</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">login</span>.<span class="ruby-identifier">to_s</span>,
-    <span class="ruby-value">:password</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:password</span>],
-    <span class="ruby-value">:email</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:email</span>].<span class="ruby-identifier">to_s</span>,
-    <span class="ruby-value">:usertitle</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'Junior Member'</span>,
-    <span class="ruby-value">:joindate</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">nowstamp</span>,
-    <span class="ruby-value">:daysprune</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">-1</span>,
-    <span class="ruby-value">:lastvisit</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">nowstamp</span>,
-    <span class="ruby-value">:lastactivity</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">nowstamp</span>,
-    <span class="ruby-value">:reputationlevelid</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">5</span>,
-    <span class="ruby-value">:timezoneoffset</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'0'</span>,
-    <span class="ruby-value">:options</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">45108311</span>,
-    <span class="ruby-value">:birthday_search</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'1970-01-01'</span>,
-    <span class="ruby-value">:startofweek</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">-1</span>,
-    <span class="ruby-value">:languageid</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
-  }.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>))
-  
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">username</span> = <span class="ruby-identifier">login</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">userfield</span> = <span class="ruby-constant">Userfield</span>.<span class="ruby-identifier">new</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">usertextfield</span> = <span class="ruby-constant">Usertextfield</span>.<span class="ruby-identifier">new</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- new-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- new-method -->
 
     
       <div id="method-c-register" class="method-detail ">
@@ -227,12 +184,12 @@ registered VBulletin user.</p>
 
           
           <div class="method-source-code" id="register-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 73</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 77</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">register</span> <span class="ruby-identifier">options</span>
   <span class="ruby-identifier">vb_user</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">vb_user</span>.<span class="ruby-identifier">save</span>
     <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">execute</span>(<span class="ruby-node">&quot;UPDATE `#{PREFIX}user` SET `birthday_search` = '0000-00-00' WHERE `#{PREFIX}user`.`userid` = '#{vb_user.userid}'&quot;</span>)
-    <span class="ruby-keyword">return</span> <span class="ruby-identifier">find</span>(<span class="ruby-identifier">vb_user</span>.<span class="ruby-identifier">userid</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">vb_user</span>.<span class="ruby-identifier">userid</span>)
   <span class="ruby-keyword">else</span>
     <span class="ruby-keyword">return</span> <span class="ruby-identifier">vb_user</span>
   <span class="ruby-keyword">end</span>
@@ -270,7 +227,7 @@ href="User.html">VBulletinRails::User</a> object if success</p>
 
           
           <div class="method-source-code" id="authenticate-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 47</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 50</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">authenticate</span>(<span class="ruby-identifier">passwd</span>)
   <span class="ruby-constant">User</span>.<span class="ruby-identifier">password_hash</span>(<span class="ruby-identifier">passwd</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-identifier">salt</span>) <span class="ruby-operator">==</span> <span class="ruby-identifier">password</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">self</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
@@ -301,7 +258,7 @@ href="User.html">VBulletinRails::User</a> object if success</p>
 
           
           <div class="method-source-code" id="authenticate_bb_password-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 52</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 55</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">authenticate_bb_password</span>(<span class="ruby-identifier">bb_password_hash</span>)
   <span class="ruby-identifier">bb_password_hash</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">bb_password</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">self</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
@@ -331,7 +288,7 @@ href="User.html">VBulletinRails::User</a> object if success</p>
 
           
           <div class="method-source-code" id="bb_password-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 57</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 60</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">bb_password</span>
   <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">MD5</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-identifier">password</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">configuration</span>.<span class="ruby-identifier">vbulletin</span>.<span class="ruby-identifier">cookie_salt</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -343,6 +300,52 @@ href="User.html">VBulletinRails::User</a> object if success</p>
 
         
       </div><!-- bb_password-method -->
+
+    
+      <div id="method-i-defaults" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">defaults</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Sets all unnecessary parameters as default for newly registered VBulletin
+user.</p>
+          
+
+          
+          <div class="method-source-code" id="defaults-source">
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 30</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">defaults</span>
+  <span class="ruby-identifier">nowstamp</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">to_i</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">usergroupid</span> <span class="ruby-operator">||=</span> <span class="ruby-value">2</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">username</span> <span class="ruby-operator">||=</span> (<span class="ruby-keyword">self</span>.<span class="ruby-identifier">username</span>.<span class="ruby-identifier">blank?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">email</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">username</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">usertitle</span> <span class="ruby-operator">||=</span> <span class="ruby-string">'Junior Member'</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">joindate</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">nowstamp</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">daysprune</span> <span class="ruby-operator">||=</span> <span class="ruby-value">-1</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">lastvisit</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">nowstamp</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">lastactivity</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">nowstamp</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">reputationlevelid</span> <span class="ruby-operator">||=</span> <span class="ruby-value">5</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">timezoneoffset</span> <span class="ruby-operator">||=</span> <span class="ruby-string">'0'</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">options</span> <span class="ruby-operator">||=</span> <span class="ruby-value">45108311</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">birthday_search</span> <span class="ruby-operator">||=</span> <span class="ruby-string">'1800-01-01'</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">startofweek</span> <span class="ruby-operator">||=</span> <span class="ruby-value">-1</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">languageid</span> <span class="ruby-operator">||=</span> <span class="ruby-value">1</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">userfield</span> = <span class="ruby-constant">Userfield</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">usertextfield</span> = <span class="ruby-constant">Usertextfield</span>.<span class="ruby-identifier">new</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- defaults-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- defaults-method -->
 
     
       <div id="method-i-password-3D" class="method-detail ">
@@ -361,8 +364,9 @@ href="User.html">VBulletinRails::User</a> object if success</p>
 
           
           <div class="method-source-code" id="password-3D-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 62</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails/models/user.rb, line 65</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">password=</span> <span class="ruby-identifier">passwd</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">passwd</span>
   <span class="ruby-identifier">new_salt</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">fresh_salt</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">passworddate</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>.<span class="ruby-identifier">to_s</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">salt</span> = <span class="ruby-identifier">new_salt</span>
@@ -387,7 +391,7 @@ href="User.html">VBulletinRails::User</a> object if success</p>
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.11.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 

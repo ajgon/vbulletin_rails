@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>module VBulletinRails - RDoc Documentation</title>
+<title>Module: VBulletinRails</title>
 
 <link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
 
@@ -48,10 +48,9 @@
   <h3 class="section-header">Defined In</h3>
   <ul>
     <li>lib/vbulletin_rails/models/session.rb
-    <li>lib/vbulletin_rails/models/base.rb
-    <li>lib/vbulletin_rails/models/usertextfield.rb
-    <li>lib/vbulletin_rails/models/userfield.rb
     <li>lib/vbulletin_rails/models/user.rb
+    <li>lib/vbulletin_rails/models/userfield.rb
+    <li>lib/vbulletin_rails/models/usertextfield.rb
     <li>lib/vbulletin_rails/version.rb
     <li>lib/vbulletin_rails.rb
   </ul>
@@ -69,6 +68,8 @@
   <h3 class="section-header">Methods</h3>
 
   <ul class="link-list">
+    
+    <li><a href="#method-c-clean_tables-21">::clean_tables!</a>
     
     <li><a href="#method-c-fetch_alt_ip">::fetch_alt_ip</a>
     
@@ -103,15 +104,13 @@
 
   <ul class="link-list">
   
-    <li><a href="./VBulletinRails.html">VBulletinRails</a>
+    <li><a href="./Rails/Application/Configuration.html">Rails::Application::Configuration</a>
   
-    <li><a href="./VBulletinRails/Base.html">VBulletinRails::Base</a>
+    <li><a href="./VBulletinRails.html">VBulletinRails</a>
   
     <li><a href="./VBulletinRails/Session.html">VBulletinRails::Session</a>
   
     <li><a href="./VBulletinRails/User.html">VBulletinRails::User</a>
-  
-    <li><a href="./Rails/Application/Configuration.html">Rails::Application::Configuration</a>
   
     <li><a href="./ActionController/Base.html">ActionController::Base</a>
   
@@ -174,6 +173,39 @@ href="mailto:igor.rzegocki@gmail.com">igor.rzegocki@gmail.com</a>)</p>
       <h3 class="section-header">Public Class Methods</h3>
 
     
+      <div id="method-c-clean_tables-21" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clean_tables!</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Cleans everything in VBulletin tables. Used to setup tests.</p>
+          
+
+          
+          <div class="method-source-code" id="clean_tables-21-source">
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails.rb, line 90</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">clean_tables!</span>
+  <span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">User</span>.<span class="ruby-identifier">delete_all</span>
+  <span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">Userfield</span>.<span class="ruby-identifier">delete_all</span>
+  <span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">Usertextfield</span>.<span class="ruby-identifier">delete_all</span>
+  <span class="ruby-constant">VBulletinRails</span><span class="ruby-operator">::</span><span class="ruby-constant">Session</span>.<span class="ruby-identifier">delete_all</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clean_tables-21-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clean_tables-21-method -->
+
+    
       <div id="method-c-fetch_alt_ip" class="method-detail ">
         
         <div class="method-heading">
@@ -200,7 +232,7 @@ detect proxies etc.</em></p>
 
           
           <div class="method-source-code" id="fetch_alt_ip-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails.rb, line 36</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">fetch_alt_ip</span> <span class="ruby-identifier">headers</span>
   <span class="ruby-identifier">alt_ip</span> = <span class="ruby-identifier">headers</span>[<span class="ruby-string">'REMOTE_ADDR'</span>]
   <span class="ruby-identifier">alt_ip</span> = <span class="ruby-identifier">headers</span>[<span class="ruby-string">'HTTP_X_REAL_IP'</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">headers</span>[<span class="ruby-string">'HTTP_X_REAL_IP'</span>] <span class="ruby-comment"># proxy_pass nginx support for unicorn/passenger standalone instances</span>
@@ -272,7 +304,7 @@ VBulletin</p>
 
           
           <div class="method-source-code" id="fetch_substr_ip-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails.rb, line 78</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails.rb, line 77</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">fetch_substr_ip</span>(<span class="ruby-identifier">ip</span>, <span class="ruby-identifier">length</span> = <span class="ruby-value">1</span>)
   <span class="ruby-identifier">length</span> = <span class="ruby-identifier">length</span>.<span class="ruby-identifier">to_i</span>
   <span class="ruby-identifier">length</span> = <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">3</span>
@@ -305,7 +337,7 @@ VBulletin</p>
 
           
           <div class="method-source-code" id="idhash-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails.rb, line 86</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails.rb, line 85</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">idhash</span> <span class="ruby-identifier">alt_ip</span>, <span class="ruby-identifier">user_agent</span>
   <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">MD5</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-identifier">user_agent</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">fetch_substr_ip</span>(<span class="ruby-identifier">alt_ip</span>))
 <span class="ruby-keyword">end</span></pre>
@@ -335,7 +367,7 @@ VBulletin</p>
 
           
           <div class="method-source-code" id="ip2long-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails.rb, line 26</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails.rb, line 25</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ip2long</span> <span class="ruby-identifier">ip</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">valid_ip?</span>(<span class="ruby-identifier">ip</span>)
   <span class="ruby-identifier">ip</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">'.'</span>).<span class="ruby-identifier">inject</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">i</span>,<span class="ruby-identifier">j</span><span class="ruby-operator">|</span> (<span class="ruby-identifier">i</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value">8</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">j</span>.<span class="ruby-identifier">to_i</span>}.<span class="ruby-identifier">to_i</span>
@@ -366,9 +398,9 @@ VBulletin</p>
 
           
           <div class="method-source-code" id="valid_ip-3F-source">
-            <pre><span class="ruby-comment"># File lib/vbulletin_rails.rb, line 21</span>
+            <pre><span class="ruby-comment"># File lib/vbulletin_rails.rb, line 20</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">valid_ip?</span> <span class="ruby-identifier">ip</span>
-  <span class="ruby-operator">!</span><span class="ruby-operator">!</span><span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">%r^\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b$/</span>)
+  <span class="ruby-operator">!</span><span class="ruby-operator">!</span><span class="ruby-identifier">ip</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">/^\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b$/</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- valid_ip-3F-source -->
           
@@ -389,7 +421,7 @@ VBulletin</p>
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.11.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 

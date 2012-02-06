@@ -3,6 +3,7 @@ module VBulletinRails
   # Automatic class for handling VBulletin users sessions.
   class Session < ActiveRecord::Base
 
+    # VBulletin tables prefix in database. It must set same as <tt>$config['Database']['tableprefix']</tt> in your VBulletin forum
     PREFIX = get_vbulletin_prefix
     establish_vbulletin_connection    
 
