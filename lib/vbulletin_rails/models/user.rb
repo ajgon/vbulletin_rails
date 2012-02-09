@@ -42,8 +42,8 @@ module VBulletinRails
       self.birthday_search ||= '1800-01-01'
       self.startofweek ||= -1
       self.languageid ||= 1
-      self.userfield = Userfield.new
-      self.usertextfield = Usertextfield.new
+      self.userfield ||= Userfield.new
+      self.usertextfield ||= Usertextfield.new
     end
 
     # Authenticate VBulletin user with provided password. Returns VBulletinRails::User object if success
