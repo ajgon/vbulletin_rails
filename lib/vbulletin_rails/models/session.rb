@@ -10,8 +10,13 @@ module VBulletinRails
     # Timeout used to set <tt>last_visit</tt> in database. Taken from VBulletin. Do not touch.
     VB_SESSION_TIMEOUT = 900
 
-    self.table_name = (PREFIX + 'session')
-    self.primary_key = (:sessionhash)
+    if Rails.version >= '3.2'
+      self.primary_key = :sessionhash
+      self.table_name = PREFIX + 'session'
+    else
+      set_primary_key(:sessionhash)
+      set_table_name(PREFIX + 'session')
+    end
 
     belongs_to :user, :foreign_key => :userid
 

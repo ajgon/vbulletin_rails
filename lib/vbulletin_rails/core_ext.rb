@@ -99,7 +99,12 @@ module ActiveRecord
     #     host: external.com
     #     prefix: vb_
     def self.establish_vbulletin_connection
-      establish_connection(database_configuration[db_env]) if db_env.match(/vbulletin_/)
+      base_env = (defined?(Rails) ? Rails.env : 'test')
+      if db_env.match(/vbulletin_/)
+        if database_configuration[base_env].merge({'prefix' => database_configuration[db_env]['prefix']}) != database_configuration[db_env] # Fix for multiple db connections in Rails 3.1 - please consider update to 3.2 or store vbulletin tables in the same database as project
+          establish_connection(database_configuration[db_env])
+        end
+      end
     end
     
     # Returns proper prefix for VBulletin tables
@@ -171,7 +176,7 @@ module ActionController #:nodoc:
         end
 
         session[:vbulletin_userid] = vb_session.userid unless session[:vbulletin_userid]
-        cookies[:bb_lastactivity], cookies[:bb_lastvisit] = vb_session.update_timestamps
+        cookies[:bb_lastactivity], cookies[:bb_lastvisit] = vb_session.update_timestamps if session[:vbulletin_permanent]
       else
         session.delete(:vbulletin_userid)
         session.delete(:vbulletin_permanent)
