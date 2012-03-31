@@ -23,7 +23,6 @@ class VBulletinRailsModelTest < ActiveSupport::TestCase #:nodoc:
     assert !@vbulletin.authenticate('wrongpassword')
   end
 
-
   test "it should check email validations" do
 
     #check email
@@ -43,7 +42,7 @@ class VBulletinRailsModelTest < ActiveSupport::TestCase #:nodoc:
     assert_equal Date.parse('1800-01-01'), @vbulletin.birthday_search
     assert @vbulletin.userid.to_i > 0
   end
-  
+
   test "it should update user password" do
     new_password = 'newpassword'
     @vbulletin.password = new_password
@@ -93,7 +92,7 @@ class VBulletinRailsModelTest < ActiveSupport::TestCase #:nodoc:
       get_session = VBulletinRails::Session.get(:sessionhash => vb_session.sessionhash, :request => request)
       assert_instance_of VBulletinRails::Session, get_session
     end
-    
+
     vb_session = VBulletinRails::Session.set(:request => request, :email => 'vb2@example.com', :username => 'vb2', :user => @vbulletin)
     get_session = VBulletinRails::Session.get(:sessionhash => vb_session.sessionhash, :request => request)
     assert_instance_of VBulletinRails::Session, get_session
@@ -112,7 +111,7 @@ class VBulletinRailsModelTest < ActiveSupport::TestCase #:nodoc:
     assert_nil VBulletinRails::Session.destroy('wrongsessionid')
     assert_instance_of VBulletinRails::Session, VBulletinRails::Session.destroy(vb_session.sessionhash)
     assert_nil VBulletinRails::Session.find_by_sessionhash(vb_session.sessionhash)
-    
+
     vb_session = VBulletinRails::Session.set(:request => request, :user => @vbulletin)
     vb_session_user_before_update = vb_session.user.dup
     vb_session_after_update = vb_session.update_timestamps
@@ -123,7 +122,7 @@ class VBulletinRailsModelTest < ActiveSupport::TestCase #:nodoc:
     vb_session_user_before_update = vb_session.user.reload.dup
     assert_equal [vb_session.lastactivity, vb_session_user_before_update.lastactivity], vb_session.update_timestamps
     assert_equal vb_session.lastactivity, vb_session.user.lastactivity
-    assert_equal vb_session_user_before_update.lastactivity, vb_session.user.lastvisit    
+    assert_equal vb_session_user_before_update.lastactivity, vb_session.user.lastvisit
   end
 
 end

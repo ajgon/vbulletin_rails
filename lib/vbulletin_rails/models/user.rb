@@ -5,7 +5,7 @@ module VBulletinRails
 
     # VBulletin tables prefix in database. It must set same as <tt>$config['Database']['tableprefix']</tt> in your VBulletin forum
     PREFIX = get_vbulletin_prefix
-    establish_vbulletin_connection    
+    establish_vbulletin_connection
 
     if Rails.version >= '3.2'
       self.primary_key = :userid
@@ -15,7 +15,6 @@ module VBulletinRails
       set_table_name(PREFIX + 'user')
     end
 
-
     validates_presence_of :email, :password
     validates_uniqueness_of :email
     validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
@@ -23,9 +22,9 @@ module VBulletinRails
     has_one :userfield, :foreign_key => :userid, :dependent => :delete
     has_one :usertextfield, :foreign_key => :userid, :dependent => :delete
     has_many :session, :foreign_key => :userid, :dependent => :delete_all
-    
+
     after_initialize :defaults
-    
+
     # Sets all unnecessary parameters as default for newly registered VBulletin user.
     def defaults
       nowstamp = Time.now.to_i
@@ -50,7 +49,7 @@ module VBulletinRails
     def authenticate(passwd)
       User.password_hash(passwd.to_s, salt) == password ? self : false
     end
-    
+
     # Authenticate VBulletin user with provided session hash. Returns VBulletinRails::User object if success
     def authenticate_bb_password(bb_password_hash)
       bb_password_hash == bb_password ? self : false
@@ -60,7 +59,7 @@ module VBulletinRails
     def bb_password
       Digest::MD5.hexdigest(password + Rails.configuration.vbulletin.cookie_salt)
     end
-    
+
     # Sets new VBulletinRails::User password
     def password= passwd
       return unless passwd
@@ -69,7 +68,7 @@ module VBulletinRails
       self.salt = new_salt
       self.send(:write_attribute, :password, User.password_hash(passwd.to_s, new_salt))
     end
-    
+
     # Registers VBulletin user with given username/email and password
     #
     #   VBulletinRails::User.register :username => 'username',      :password => 'user password'
@@ -83,7 +82,7 @@ module VBulletinRails
         return vb_user
       end
     end
-    
+
     private
     #:nodoc:
     def self.password_hash password, salt

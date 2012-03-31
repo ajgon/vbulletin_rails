@@ -12,13 +12,13 @@ module ActiveRecord
     # With this method included, two hooks on User are added:
     # * When user is created - additional VBulletin account corresponding to user email and password is created, see: add_vbulletin
     # * When user is updated - corresponding VBulletin password is updated, see: update_vbulletin
-    # * When user is validated - corresponding VBulletin object is validated as well, see: validate_vbulletin 
+    # * When user is validated - corresponding VBulletin object is validated as well, see: validate_vbulletin
     def self.include_vbulletin
       before_validation :validate_vbulletin
       before_create :add_vbulletin
       after_update :update_vbulletin
     end
-    
+
     # Method used in user processing model to overwrite default column names.
     # Normally VBulletinRails assumes, that User model contains columns with names 'email', 'password' and (optional) 'username'.
     # If you want to overwrite this, use this method as follows:
@@ -42,12 +42,12 @@ module ActiveRecord
       vb_user = VBulletinRails::User.find_by_email(register_parameter_from_user_model(:email))
       vb_user.update_attributes(:password => register_parameter_from_user_model(:password))
     end
-    
+
     # Filter launched <tt>before_validation</tt>, won't allow using it model to validate unless VBulletin validates properly
     def validate_vbulletin
       vb_user = VBulletinRails::User.find_by_email(register_parameter_from_user_model(:email))
       unless vb_user
-        vb_user = VBulletinRails::User.new(register_parameters_from_user_model) 
+        vb_user = VBulletinRails::User.new(register_parameters_from_user_model)
         unless vb_user.valid?
           vb_user.errors.each do |error, message|
             self.errors.add('vbulletin_' + error.to_s, message)
@@ -55,7 +55,7 @@ module ActiveRecord
         end
       end
     end
-    
+
     # Returns hash of parameters ready to pass to VBulletinRails::User constructor
     def register_parameters_from_user_model
       register_parameters = [:email, :password, :username].collect do |vbulletin_column_name|
@@ -68,7 +68,7 @@ module ActiveRecord
     def register_parameter_from_user_model(vbulletin_column_name)
       ((defined?(@@vbulletin_column_names) && self.respond_to?(@@vbulletin_column_names[vbulletin_column_name])) ? self.send(@@vbulletin_column_names[vbulletin_column_name]) : self.send(vbulletin_column_name))
     end
-        
+
     # Get database configuration options
     def self.database_configuration
       begin
@@ -83,7 +83,7 @@ module ActiveRecord
       base_env = (defined?(Rails) ? Rails.env : 'test')
       database_configuration['vbulletin_' + base_env] ? 'vbulletin_' + base_env : base_env
     end
-    
+
     # Sets connection to VBulletin database. If <tt>vbulletin_<environemt></tt> specified in <tt>database.yml</tt> file, it connets to that database instead of normal database.
     #   # database.yml
     #   # Sets VBulletin connetion to another database located in external.com, and assumes that all VBulletin tables have vb_ prefix.
@@ -106,7 +106,7 @@ module ActiveRecord
         end
       end
     end
-    
+
     # Returns proper prefix for VBulletin tables
     def self.get_vbulletin_prefix
       ((database_configuration[db_env] && database_configuration[db_env]['prefix']) ? database_configuration[db_env]['prefix'] : '')
@@ -144,7 +144,7 @@ module ActionController #:nodoc:
 
       return vb_user
     end
-    
+
     # Destroys VBulletin user session
     def vbulletin_logout
       VBulletinRails::Session.destroy(cookies[:bb_sessionhash])
@@ -210,7 +210,7 @@ module ActionController #:nodoc:
 end
 
 #:nodoc: all
-module Rails 
+module Rails
   class Application #:nodoc:
 
     # Add config.vbulletin.<parameter> accessor. Supported parameters are:
@@ -235,7 +235,7 @@ end
 
 module ActiveSupport
   class TestCase #:nodoc:
-    setup :clean_vbulletin_tables  
+    setup :clean_vbulletin_tables
     def clean_vbulletin_tables
       VBulletinRails.clean_tables!
     end
@@ -244,7 +244,7 @@ end
 
 module ActionController
   class TestCase #:nodoc:
-    setup :clean_vbulletin_tables  
+    setup :clean_vbulletin_tables
     def clean_vbulletin_tables
       VBulletinRails.clean_tables!
     end

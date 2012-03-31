@@ -21,12 +21,12 @@ class CreateVbulletinTables < ActiveRecord::Migration #:nodoc:
       t.string  "apiaccesstoken", :limit => 32,  :default => "", :null => false
       t.integer "isbot",          :limit => 1,   :default => 0,  :null => false
     end
-  
+
     add_index "#{vb_prefix}session", ["apiaccesstoken"], :name => "apiaccesstoken"
     add_index "#{vb_prefix}session", ["idhash", "host", "userid"], :name => "guest_lookup"
     add_index "#{vb_prefix}session", ["lastactivity"], :name => "last_activity"
     add_index "#{vb_prefix}session", ["userid", "lastactivity"], :name => "user_activity"
-  
+
     create_table "#{vb_prefix}user", :primary_key => "userid", :force => true do |t|
       t.integer "usergroupid",         :limit => 2,   :default => 0,        :null => false
       t.string  "membergroupids",      :limit => 250, :default => "",       :null => false
@@ -99,7 +99,7 @@ class CreateVbulletinTables < ActiveRecord::Migration #:nodoc:
       t.string  "logintype",                          :default => "vb",     :null => false
       t.string  "fbaccesstoken",                      :default => "",       :null => false
     end
-  
+
     add_index "#{vb_prefix}user", ["birthday", "showbirthday"], :name => "birthday"
     add_index "#{vb_prefix}user", ["birthday_search"], :name => "birthday_search"
     add_index "#{vb_prefix}user", ["email"], :name => "email"
@@ -107,7 +107,7 @@ class CreateVbulletinTables < ActiveRecord::Migration #:nodoc:
     add_index "#{vb_prefix}user", ["referrerid"], :name => "referrerid"
     add_index "#{vb_prefix}user", ["usergroupid"], :name => "usergroupid"
     add_index "#{vb_prefix}user", ["username"], :name => "username"
-  
+
     create_table "#{vb_prefix}userfield", :primary_key => "userid", :force => true do |t|
       t.text "temp",   :limit => 16777215
       t.text "field1", :limit => 16777215
@@ -115,7 +115,7 @@ class CreateVbulletinTables < ActiveRecord::Migration #:nodoc:
       t.text "field3", :limit => 16777215
       t.text "field4", :limit => 16777215
     end
-  
+
     create_table "#{vb_prefix}usertextfield", :primary_key => "userid", :force => true do |t|
       t.text "subfolders",  :limit => 16777215
       t.text "pmfolders",   :limit => 16777215
@@ -126,7 +126,7 @@ class CreateVbulletinTables < ActiveRecord::Migration #:nodoc:
       t.text "rank",        :limit => 16777215
     end
   end
-  
+
   def self.down
     vb_prefix = ActiveRecord::Base.get_vbulletin_prefix
     drop_table "#{vb_prefix}session"
@@ -134,5 +134,5 @@ class CreateVbulletinTables < ActiveRecord::Migration #:nodoc:
     drop_table "#{vb_prefix}userfield"
     drop_table "#{vb_prefix}usertextfield"
   end
-  
+
 end

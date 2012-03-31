@@ -5,7 +5,7 @@ module VBulletinRails
 
     # VBulletin tables prefix in database. It must set same as <tt>$config['Database']['tableprefix']</tt> in your VBulletin forum
     PREFIX = get_vbulletin_prefix
-    establish_vbulletin_connection    
+    establish_vbulletin_connection
 
     # Timeout used to set <tt>last_visit</tt> in database. Taken from VBulletin. Do not touch.
     VB_SESSION_TIMEOUT = 900
