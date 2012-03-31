@@ -118,7 +118,8 @@ class VBulletinRailsModelTest < ActiveSupport::TestCase #:nodoc:
     assert_equal [vb_session.user.reload.lastactivity, vb_session_user_before_update.lastvisit], vb_session_after_update
     assert_equal vb_session.lastactivity, vb_session.user.lastactivity
     assert_equal vb_session_user_before_update.lastvisit, vb_session.user.lastvisit
-    vb_session.user.update_attributes(:lastactivity => Time.now - VBulletinRails::Session::VB_SESSION_TIMEOUT - 10)
+    vb_session.user.lastactivity = Time.now - VBulletinRails::Session::VB_SESSION_TIMEOUT - 10
+    vb_session.user.save
     vb_session_user_before_update = vb_session.user.reload.dup
     assert_equal [vb_session.lastactivity, vb_session_user_before_update.lastactivity], vb_session.update_timestamps
     assert_equal vb_session.lastactivity, vb_session.user.lastactivity

@@ -27,7 +27,9 @@ module VBulletinRails
         nowstamp = Time.now.to_i
         last_visit = (((nowstamp - last_activity) > VB_SESSION_TIMEOUT) ? last_activity : user.lastvisit)
         update_attributes(:lastactivity => nowstamp)
-        user.update_attributes(:lastactivity => nowstamp, :lastvisit => last_visit)
+	user.lastactivity = nowstamp
+	user.lastvisit = last_visit
+	user.save
         return [nowstamp, last_visit]
       end
       return [0, 0]
