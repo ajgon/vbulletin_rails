@@ -13,10 +13,18 @@ module ActiveRecord
     # * When user is created - additional VBulletin account corresponding to user email and password is created, see: add_vbulletin
     # * When user is updated - corresponding VBulletin password is updated, see: update_vbulletin
     # * When user is validated - corresponding VBulletin object is validated as well, see: validate_vbulletin
-    def self.include_vbulletin
-      before_validation :validate_vbulletin
-      before_create :add_vbulletin
-      after_update :update_vbulletin
+    def self.include_vbulletin(options={})
+      if options.size.zero?
+        options = {
+          :validate_vbulletin => true,
+          :add_vbulletin      => true,
+          :update_vbulletin   => true
+        }
+      end
+
+      before_validation :validate_vbulletin if options[:validate_vbulletin]
+      before_create     :add_vbulletin      if options[:add_vbulletin]
+      after_update      :update_vbulletin   if options[:update_vbulletin]
     end
 
     # Method used in user processing model to overwrite default column names.
