@@ -48,7 +48,7 @@ class VBulletinRailsTest < ActiveSupport::TestCase #:nodoc:
   test 'alt_ip retriever' do
     headers = {'REMOTE_ADDR' => '199.99.99.99'}
     assert_equal headers['REMOTE_ADDR'], VBulletinRails::fetch_alt_ip(headers)
-    
+
     headers['HTTP_X_REAL_IP'] = '199.99.99.9'
     assert_equal headers['HTTP_X_REAL_IP'], VBulletinRails::fetch_alt_ip(headers)
 

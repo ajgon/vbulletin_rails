@@ -8,7 +8,7 @@ Add single sign on to VBulletin forum in your Rails application
 Add to your Gemfile and run the `bundle` command to install it.
 
 ```ruby
-gem "vbulletin"
+gem "vbulletin_rails"
 ```
 
 **Requires Ruby 1.9.2 or later and Rails 3.0 or later.**
